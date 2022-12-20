@@ -33,7 +33,7 @@ variables:
 
 before_script:
   # Push to Gitlab registry
-  - docker login registry.gitlab.com -u $GITLAB_USER -p $GITLAB_PASSWORD
+  - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   # Create a new docker context for builder instance to use
   - docker context create builder-context
   # Create a builder instance named "builderx"
