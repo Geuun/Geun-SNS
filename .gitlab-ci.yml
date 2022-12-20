@@ -5,9 +5,8 @@
 ##  
 #########################################################
 
-# stages == Define task stage order
+# stages: Define task stage order
 # ex) Proceed in order docker-build >>> docker-push
-
 stages:
   # Build have to distributed for deployment rate 
   - docker-build
@@ -19,17 +18,15 @@ image: docker:latest
 # Set env
 # $CI_PROJECT_NAME / $CI_COMMIT_TAG
 variables:
-  # For buildx // BUILDKIT_INLINE_CACHE: "1"
+  # For buildx   # BUILDKIT_INLINE_CACHE: "1"
   DOCKER_BUILDKIT: 1
   CI_DOCKER_IMAGE:  ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
   CI_DOCKER_TAG:    ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
   CI_DOCKER_BRANCH: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
   CI_DOCKER_LATEST: ${CI_REGISTRY_IMAGE}:latest
 
-  BRANCH_NAME: main
-  IMAGE_NAME: "$PROJECT_NAME:$CI_COMMIT_TAG"
-  CACHE_IMAGE_NAME: "$CI_REGISTRY/mygroup/$CI_PROJECT_NAME/$PROJECT_NAME:cache"
-  REGISTRY_IMAGE_NAME: registry.gitlab.com/$GITLAB_USER/$PROJECT_NAME
+
+
 
 before_script:
   # Push to Gitlab registry
