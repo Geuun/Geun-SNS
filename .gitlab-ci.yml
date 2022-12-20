@@ -7,7 +7,7 @@
 ###################################################################################################
 
 # stages: Define task stage order
-# ex) Proceed in order docker-build >>> docker-push
+# ex) Proceed in order docker-build -> docker-push -> docker-build-push
 stages:
   # Build have to distributed for deployment rate 
   # - docker-build
@@ -27,6 +27,7 @@ variables:
   CI_DOCKER_ARM64_LATEST: ${CI_REGISTRY_IMAGE}_ARM64:latest
   CI_DOCKER_AMD64_LATEST: ${CI_REGISTRY_IMAGE}_AMD64:latest
   CACHE_IMAGE_NAME: $CI_REGISTRY/mygroup/$PROJECT_NAME/$PROJECT_NAME:cache
+  
   # For buildx activate
   DOCKER_BUILDKIT: 1
 
@@ -49,24 +50,18 @@ after_script:
   - docker logout
 
 ###################################################################################################
+
 ## Parallel Operation (amd64 / arm64)
-# Build for amd64
-build_amd64:
+# For amd64
+amd64:
   stage: docker-build-push
   script:
     - docker buildx build --platform=linux/amd64 --pull --push -t ${CI_DOCKER_LATEST} .
 
-# Build for arm64
-build_arm64:
+# For arm64
+arm64:
   stage: docker-build-push
   script:
     - docker buildx build --platform=linux/arm64 --pull --push -t ${CI_DOCKER_LATEST} .
-
-# push:
-#   stage: docker-push
-#   script:
-#     # Push to Gitlab registry
-#     - echo ${CI_DOCKER_LATEST}
-#     - docker push ${CI_DOCKER_LATEST}
 
 ###################################################################################################
