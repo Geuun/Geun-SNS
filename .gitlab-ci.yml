@@ -49,18 +49,19 @@ after_script:
 build_amd64:
   stage: docker-build
   script:
-    - docker buildx build --platform=linux/amd64 --pull -t ${CI_DOCKER_LATEST} .
+    - docker buildx build --platform=linux/amd64 --pull --push -t ${CI_DOCKER_LATEST} .
 
 # Build for arm64
 build_arm64:
   stage: docker-build
   script:
-    - docker buildx build --platform=linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
+    - docker buildx build --platform=linux/arm64 --pull --push -t ${CI_DOCKER_LATEST} .
 
-# Push
 push:
   stage: docker-push
   script:
-    - docker push  ${CI_DOCKER_LATEST}
+    # Push to Gitlab registry
+    - docker push ${CI_DOCKER_LATEST}
+    - docker buildx build --cache-from $CACHE_IMAGE_NAME --tag $REGISTRY_IMAGE_NAME  --push --platform=linux/arm64/v8,linux/amd64 .
 
 ###################################################################################################
