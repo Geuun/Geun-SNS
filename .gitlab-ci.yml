@@ -20,7 +20,7 @@ package:
       # Create a builder instance named "builderx"
     - docker buildx create --name builderx --driver docker-container --use builder-context
   script:
-    - docker build --platform=linux/amd64,linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
+    - docker buildx build --platform=linux/amd64,linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
     - docker push  ${CI_DOCKER_LATEST}
   after_script:
     - docker logout
