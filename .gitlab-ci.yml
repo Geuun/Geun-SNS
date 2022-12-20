@@ -15,7 +15,7 @@ package:
   before_script:
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   script:
-    - docker build --pull -t ${CI_DOCKER_IMAGE} .
+    - docker build --pull -t CI_DOCKER_LATEST .
     - docker push ${CI_DOCKER_IMAGE}
   after_script:
     - docker logout
