@@ -28,6 +28,9 @@ variables:
 # Set Base Image
 image: docker:latest
 
+services:
+  - docker:dind
+
 ###################################################################################################
 
 before_script:
