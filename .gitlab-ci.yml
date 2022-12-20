@@ -1,0 +1,64 @@
+#########################################################
+##  
+##  My Server Architecture : arm64(aarch64)
+##  So I have to build multi-cpu architecture :)!
+##  
+#########################################################
+
+# stages == Define task stage order
+# ex) Proceed in order docker-build >>> docker-push
+
+stages:
+  # Build have to distributed for deployment rate 
+  - docker-build
+  - docker-push
+
+# Set Base Image
+image: docker:latest
+
+# Set env
+# $CI_PROJECT_NAME / $CI_COMMIT_TAG
+variables:
+  # For buildx // BUILDKIT_INLINE_CACHE: "1"
+  DOCKER_BUILDKIT: 1
+  CI_DOCKER_IMAGE:  ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
+  CI_DOCKER_TAG:    ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+  CI_DOCKER_BRANCH: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+  CI_DOCKER_LATEST: ${CI_REGISTRY_IMAGE}:latest
+
+  BRANCH_NAME: main
+  IMAGE_NAME: "$PROJECT_NAME:$CI_COMMIT_TAG"
+  CACHE_IMAGE_NAME: "$CI_REGISTRY/mygroup/$CI_PROJECT_NAME/$PROJECT_NAME:cache"
+  REGISTRY_IMAGE_NAME: registry.gitlab.com/$GITLAB_USER/$PROJECT_NAME
+
+before_script:
+  # Push to Gitlab registry
+  - docker login registry.gitlab.com -u $GITLAB_USER -p $GITLAB_PASSWORD
+  # Create a new docker context for builder instance to use
+  - docker context create builder-context
+  # Create a builder instance named "builderx"
+  - docker buildx create --name builderx --driver docker-container --use builder-context
+
+after_script:
+  - docker logout
+
+# Build for amd64
+build_amd64:
+  stage: docker-build
+  script:
+    # For multi-architecture
+    - docker buildx build --cache-from $CACHE_IMAGE_NAME --platform linux/amd64 -t --push registry.gitlab.com/$GITLAB_USER/$PROJECT_NAME .
+
+# Build for ARM64
+build_arm64:
+  stage: docker-build
+  script:
+    # For multi-architecture
+    - docker buildx build --push --cache-from $CACHE_IMAGE_NAME --platform linux/arm64/v8 -t registry.gitlab.com/$GITLAB_USER/$PROJECT_NAME .
+
+push:
+  stage: docker-push
+  script:
+    # Push to Gitlab registry
+    - docker push registry.gitlab.com/$GITLAB_USER/$PROJECT_NAME
+    - docker buildx build --cache-from $CACHE_IMAGE_NAME --tag $REGISTRY_IMAGE_NAME  --push --platform=linux/arm64/v8,linux/amd64 .
