@@ -53,7 +53,7 @@ build_amd64:
 
 # Build for arm64
 build_arm64:
-  stage: docker-build-push
+  stage: docker-build
   script:
     - docker buildx build --platform=linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
 
