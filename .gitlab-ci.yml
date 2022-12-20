@@ -1,27 +1,57 @@
-stages:
-  - dockerbuild-push
+#########################################################
+##  
+##  Record for Geun
+##  Your Server CPU Architecture : arm64/v8 (aarch64)
+##  So You have to build for Cross Platform :)!
+##  
+#########################################################
 
+# stages: Define task stage order
+# ex) Proceed in order docker-build >>> docker-push
+stages:
+  # Build have to distributed for deployment rate 
+  - docker-build-push
+  # - docker-push
+
+# Set Base Image
+image: docker:latest
+
+# Set env
+# $CI_PROJECT_NAME / $CI_COMMIT_TAG
+# ImageTag's default tag == latest
 variables:
+  # For buildx   # BUILDKIT_INLINE_CACHE: "1"
   DOCKER_BUILDKIT: 1
   CI_DOCKER_IMAGE:  ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
   CI_DOCKER_TAG:    ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
   CI_DOCKER_BRANCH: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
   CI_DOCKER_LATEST: ${CI_REGISTRY_IMAGE}:latest
 
-package:
-  image: docker:latest
-  stage: dockerbuild-push
-  services:
-    - docker:dind
-  before_script:
+before_script:
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
       # Create a new docker context for builder instance to use
     - docker context create builder-context
       # Create a builder instance named "builderx"
     - docker buildx create --name builderx --driver docker-container --use builder-context
+
+after_script:
+  - docker logout
+
+# Build for amd64
+build_amd64:
+  stage: docker-build-push
   script:
-    # - docker buildx build --platform=linux/amd64,linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
-    - docker buildx build --platform=linux/arm64/v8 --pull --push -t ${CI_DOCKER_LATEST} .
-    # - docker push  ${CI_DOCKER_LATEST}
-  after_script:
-    - docker logout
+    - docker buildx build --platform=linux/amd64 --pull -t ${CI_DOCKER_LATEST} .
+    - docker push ${CI_DOCKER_LATEST}
+
+# Build for arm64
+build_arm64:
+  stage: docker-build-push
+  script:
+    - docker buildx build --platform=linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
+    - docker push ${CI_DOCKER_LATEST}
+
+# push:
+#   stage: docker-push
+#   script:
+#     - docker push  ${CI_DOCKER_LATEST}
