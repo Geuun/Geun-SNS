@@ -10,8 +10,8 @@
 # ex) Proceed in order docker-build >>> docker-push
 stages:
   # Build have to distributed for deployment rate 
-  - docker-build-push
-  # - docker-push
+  - docker-build
+  - docker-push
 
 # Set env
 # $CI_PROJECT_NAME / $CI_COMMIT_TAG
@@ -47,21 +47,20 @@ after_script:
 
 # Build for amd64
 build_amd64:
-  stage: docker-build-push
+  stage: docker-build
   script:
     - docker buildx build --platform=linux/amd64 --pull -t ${CI_DOCKER_LATEST} .
-    - docker push ${CI_DOCKER_LATEST}
 
 # Build for arm64
 build_arm64:
   stage: docker-build-push
   script:
     - docker buildx build --platform=linux/arm64 --pull -t ${CI_DOCKER_LATEST} .
-    - docker push ${CI_DOCKER_LATEST}
 
-# push:
-#   stage: docker-push
-#   script:
-#     - docker push  ${CI_DOCKER_LATEST}
+# Push
+push:
+  stage: docker-push
+  script:
+    - docker push  ${CI_DOCKER_LATEST}
 
 ###################################################################################################
