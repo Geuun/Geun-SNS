@@ -1,23 +1,36 @@
-###################
-### Spring boot ###
-###################
+# Base Setting #
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force-response: true
+
+#########################################################
+
+# Spring boot #
 
 spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  ## DB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:8080
     username:
     password:
 
+  ## JPA
   jpa:
     database: mysql
     hibernate:
       ddl-auto: validate
     show-sql: true
 
-###################
+  ## JWT
+  jwt:
+    token:
+      secret:
 
+#########################################################
