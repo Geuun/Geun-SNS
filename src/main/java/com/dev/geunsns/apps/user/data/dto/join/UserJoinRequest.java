@@ -14,9 +14,9 @@ public class UserJoinRequest {
     private String userName;
     private String password;
 
-    public User toEntity(String password) {
+    public User toEntity(String userName, String password) {
         return User.builder()
-                .userName(this.userName)
+                .userName(userName)
                 .password(password)
                 .build();
     }

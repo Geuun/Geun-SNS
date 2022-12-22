@@ -7,11 +7,13 @@ import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.exception.UserErrorCode;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserService {
 
@@ -29,21 +31,32 @@ public class UserService {
          * 중복 -> Exception() 처리
          */
         userRepository.findByUserName(userJoinRequest.getUserName())
-                .ifPresent(user -> {
-                    throw new UserAppException(UserErrorCode.DUPLICATED_USER_NAME, userJoinRequest.getUserName());
-                });
+            .ifPresent(user -> {
+                throw new UserAppException(
+                    // errorMessage 없을 때 enum ErrorMessage 출력해보기
+                    UserErrorCode.DUPLICATED_USER_NAME
+                );
+            });
 
-        User savedUser = userRepository.save(userJoinRequest.toEntity(userJoinRequest.getPassword()));
+        User savedUser = userRepository.save(userJoinRequest.toEntity(
+            userJoinRequest.getUserName(),
+            userJoinRequest.getPassword()
+        ));
         return UserDto.builder()
-                .id(savedUser.getId())
-                .userName(savedUser.getUserName())
-                .password(savedUser.getPassword())
-                .role(savedUser.getRole())
-                .build();
+            .id(savedUser.getId())
+            .userName(savedUser.getUserName())
+            .password(savedUser.getPassword())
+            .role(savedUser.getRole())
+            .build();
     }
 
     public User getUserByUserName(String userName) {
-        return userRepository.findByUserName(userName)
-                .orElseThrow(() -> new UserAppException(UserErrorCode.NOT_FOUND, "해당 유저가 존재하지 않습니다."));
+        return userRepository.findByUserName(userName).orElseThrow(() ->
+            new UserAppException(
+                // errorMessage 있을 때 errorMessage 출력해보기
+                UserErrorCode.NOT_FOUND,
+                "해당 유저가 존재하지 않습니다."
+            )
+        );
     }
 }
