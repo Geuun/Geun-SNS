@@ -14,26 +14,27 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfig {
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .apiInfo(this.apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
-                .build();
-    }
 
-    @Bean
-    public InternalResourceViewResolver defaultViewResolver() {
-        return new InternalResourceViewResolver();
-    }
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.OAS_30)
+			.apiInfo(this.apiInfo())
+			.select()
+			.apis(RequestHandlerSelectors.any())
+			.paths(PathSelectors.ant("/api/**"))
+			.build();
+	}
 
-    public ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Geun-SNS Rest API Documentation")
-                .description("Geun-SNS")
-                .version("v1")
-                .build();
-    }
+	@Bean
+	public InternalResourceViewResolver defaultViewResolver() {
+		return new InternalResourceViewResolver();
+	}
+
+	public ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+			.title("Geun-SNS Rest API Documentation")
+			.description("Geun-SNS")
+			.version("v1")
+			.build();
+	}
 }

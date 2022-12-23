@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAppException extends RuntimeException{
-    private UserErrorCode userErrorCode;
-    private String userErrorMessage;
+public class UserAppException extends RuntimeException {
 
-    // 메세지 입력안했을 때 enum메세지 반환
-    public UserAppException(UserErrorCode userErrorCode) {
-        this.userErrorCode = userErrorCode;
-        this.userErrorMessage = userErrorCode.getErrorMessage();
-    }
+	private UserErrorCode userErrorCode;
+	private String userErrorMessage;
+
+	// 메세지 입력안했을 때 enum메세지 반환
+	public UserAppException(UserErrorCode userErrorCode) {
+		this.userErrorCode = userErrorCode;
+		this.userErrorMessage = userErrorCode.getErrorMessage();
+	}
 }
