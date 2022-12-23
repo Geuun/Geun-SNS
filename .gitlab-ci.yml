@@ -21,6 +21,16 @@ image: docker:latest
 services:
   - docker:dind
 
+# Set env
+# $CI_PROJECT_NAME / $CI_COMMIT_TAG
+variables:
+  # For buildx   # BUILDKIT_INLINE_CACHE: "1"
+  DOCKER_BUILDKIT: 1
+  CI_DOCKER_IMAGE:  ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
+  CI_DOCKER_TAG:    ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+  CI_DOCKER_BRANCH: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+  CI_DOCKER_LATEST: ${CI_REGISTRY_IMAGE}:latest
+
 ###################################################################################################
 
 before_script:
