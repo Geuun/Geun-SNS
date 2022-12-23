@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum UserRole {
-    ADMIN("admin"),
-    USER("user"),
-    ;
+	ADMIN("admin"),
+	USER("user"),
+	;
 
-    private String role;
+	private String role;
 }

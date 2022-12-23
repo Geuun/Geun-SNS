@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserJoinResponse {
-    private Long userId;
-    private String userName;
+
+	private Long userId;
+	private String userName;
 }

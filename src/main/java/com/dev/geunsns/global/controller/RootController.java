@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("")
 public class RootController {
 
-    @GetMapping("/api/v1/hello")
-    public String hello() {
-        return "darkchocolate";
-    }
+	@GetMapping("/api/v1/hello")
+	public String hello() {
+		return "darkchocolate";
+	}
 }
