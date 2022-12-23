@@ -49,11 +49,14 @@ before_script:
 after_script:
   - docker logout
 
+###################################################################################################
+
 ## Parallel Operation (amd64 / arm64)
 # For amd64
 amd64:
   only:
     - main
+  needs: []
   stage: docker-build-push
   script:
     - docker buildx build --platform=linux/amd64 --pull --push -t ${CI_DOCKER_TAG_AMD64} .
@@ -62,6 +65,7 @@ amd64:
 arm64:
   only:
     - main
+  needs: []
   stage: docker-build-push
   script:
     - docker buildx build --platform=linux/arm64 --pull --push -t ${CI_DOCKER_TAG_ARM64} .
@@ -71,6 +75,9 @@ arm64:
 manifest:
   only:
     - main
+  needs:
+    - job: amd64
+    - job: arm64
   stage: docker-manifest
   script:
     - docker manifest create ${CI_DOCKER_LATEST} --amend ${CI_DOCKER_TAG_AMD64} --amend ${CI_DOCKER_TAG_ARM64}
