@@ -1,0 +1,73 @@
+###################################################################################################
+##  
+##  Record for Geun
+##  Your Server CPU Architecture : arm64/v8 (aarch64)
+##  So You have to build for Cross Platform :)!
+##  
+###################################################################################################
+
+# stages: Define task stage order
+# ex) Proceed in order docker-build -> docker-push -> docker-build-push
+stages:
+  # Build have to distributed for deployment rate 
+  # - docker-build
+  # - docker-push
+  - docker-build-push
+  - docker-manifest
+
+# Set env
+# $CI_PROJECT_NAME / $CI_COMMIT_TAG
+# ImageTag's default tag == latest
+variables:
+  # For Image tag var
+  CI_DOCKER_IMAGE:  ${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}
+  CI_DOCKER_TAG:    ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+  CI_DOCKER_BRANCH: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
+  CI_DOCKER_LATEST: ${CI_REGISTRY_IMAGE}:latest
+
+  CI_DOCKER_TAG_AMD64: ${CI_REGISTRY_IMAGE}:AMD64
+  CI_DOCKER_TAG_ARM64: ${CI_REGISTRY_IMAGE}:ARM64
+
+  # For buildx activate
+  DOCKER_BUILDKIT: 1
+
+# Set Base Image
+image: docker:latest
+
+services:
+  - docker:dind
+
+###################################################################################################
+
+before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+      # Create a new docker context for builder instance to use
+    - docker context create builder-context
+      # Create a builder instance named "builderx"
+    - docker buildx create --name builderx --driver docker-container --use builder-context
+
+after_script:
+  - docker logout
+
+## Parallel Operation (amd64 / arm64)
+# For amd64
+amd64:
+  stage: docker-build-push
+  script:
+    - docker buildx build --platform=linux/amd64 --pull --push -t ${CI_DOCKER_TAG_AMD64} .
+
+# For arm64
+arm64:
+  stage: docker-build-push
+  script:
+    - docker buildx build --platform=linux/arm64 --pull --push -t ${CI_DOCKER_TAG_ARM64} .
+
+###################################################################################################
+
+manifest:
+  stage: docker-manifest
+  script:
+    - docker manifest create ${CI_DOCKER_LATEST} --amend ${CI_DOCKER_TAG_AMD64} --amend ${CI_DOCKER_TAG_ARM64}
+    - docker manifest push --purge ${CI_DOCKER_LATEST}
+
+###################################################################################################
