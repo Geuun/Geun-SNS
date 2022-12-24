@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.user.data.Role;
+package com.dev.geunsns.apps.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
