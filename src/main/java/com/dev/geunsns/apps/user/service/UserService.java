@@ -42,19 +42,20 @@ public class UserService {
 																			encoder.encode(userJoinRequest.getPassword())
 																		   )
 												  );
-		return UserDto.builder()
-					  .id(savedUser.getId())
-					  .userName(savedUser.getUserName())
-					  .password(savedUser.getPassword())
-					  .role(savedUser.getRole())
-					  .build();
+		return UserDto.fromEntity(savedUser);
 	}
 
-	public UserEntity getUserByUserName(String userName) {
-		return userRepository.findByUserName(userName)
-							 .orElseThrow(() -> new UserAppException(UserErrorCode.NOT_FOUND,
-																	 String.format("User %s does not exist.",
-																				   userName)));
+	public UserDto getUserByUserName(String userName) {
+		UserEntity userEntity = userRepository.findByUserName(userName)
+			.orElseThrow(() -> new UserAppException(UserErrorCode.NOT_FOUND,
+													String.format("User %s does not exist.",
+																  userName))
+						);
+
+		// Entity -> Dto
+		UserDto user = UserDto.fromEntity(userEntity);
+
+		return user;
 	}
 
 	public String userLogin(String userName, String password) {
@@ -66,7 +67,7 @@ public class UserService {
 		 */
 
 		// 1. userName 중복 검사
-		UserEntity loginTryUser = getUserByUserName(userName);
+		UserDto loginTryUser = getUserByUserName(userName);
 
 		// 2. password 검사
 		if (! encoder.matches(password, loginTryUser.getPassword())) {

@@ -1,5 +1,6 @@
 package com.dev.geunsns.global.config;
 
+import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.service.UserService;
 import com.dev.geunsns.global.utils.JwtTokenUtils;
@@ -60,7 +61,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		log.info("userName: {}", userName);
 
 		// UserDetail 가져오기
-		UserEntity user = userService.getUserByUserName(userName);
+		UserDto user = userService.getUserByUserName(userName);
 		log.info("userRole: {}", user.getRole());
 
 		// 권한 부여

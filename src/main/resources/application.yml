@@ -24,9 +24,20 @@ spring:
   ## JPA
   jpa:
     database: mysql
+    show-sql: true
     hibernate:
       ddl-auto: validate
-    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  logging:
+    level:
+      org:
+        hibernate:
+          type:
+            descriptor:
+              sql: trace
 
   ## JWT
   jwt:
