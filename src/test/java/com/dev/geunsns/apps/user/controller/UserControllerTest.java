@@ -12,7 +12,7 @@ import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.dto.login.UserLoginRequest;
 import com.dev.geunsns.apps.user.exception.UserAppException;
-import com.dev.geunsns.apps.user.exception.UserErrorCode;
+import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
 import com.dev.geunsns.apps.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +66,7 @@ class UserControllerTest {
             .build();
 
         when(userService.joinUser(any()))
-            .thenThrow(new UserAppException(UserErrorCode.DUPLICATED_USER_NAME));
+            .thenThrow(new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME));
 
         mockMvc.perform(post("/api/v1/users/join").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,7 +112,7 @@ class UserControllerTest {
             .build();
 
         when(userService.userLogin(any(), any()))
-            .thenThrow(new UserAppException(UserErrorCode.NOT_FOUND));
+            .thenThrow(new UserAppException(UserAppErrorCode.NOT_FOUND));
 
         mockMvc.perform(post("/api/v1/users/login")
                 .with(csrf())
@@ -133,7 +133,7 @@ class UserControllerTest {
             .build();
 
         when(userService.userLogin(any(), any()))
-            .thenThrow(new UserAppException(UserErrorCode.INVALID_PASSWORD));
+            .thenThrow(new UserAppException(UserAppErrorCode.INVALID_PASSWORD));
 
         mockMvc.perform(post("/api/v1/users/login")
                 .with(csrf())

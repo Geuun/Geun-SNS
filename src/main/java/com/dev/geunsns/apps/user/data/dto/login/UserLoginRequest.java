@@ -1,6 +1,7 @@
 package com.dev.geunsns.apps.user.data.dto.login;
 
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class UserLoginRequest {
 

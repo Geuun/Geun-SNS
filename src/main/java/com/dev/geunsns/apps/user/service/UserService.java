@@ -4,7 +4,7 @@ import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppException;
-import com.dev.geunsns.apps.user.exception.UserErrorCode;
+import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 import com.dev.geunsns.global.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class UserService {
 		 */
 		userRepository.findByUserName(userJoinRequest.getUserName())
 					  .ifPresent(user -> {
-						  throw new UserAppException(UserErrorCode.DUPLICATED_USER_NAME,
+						  throw new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME,
 													 String.format("UserName '%s' is Duplicated",
 																   userJoinRequest.getUserName()));
 					  });
@@ -47,7 +47,7 @@ public class UserService {
 
 	public UserDto getUserByUserName(String userName) {
 		UserEntity userEntity = userRepository.findByUserName(userName)
-			.orElseThrow(() -> new UserAppException(UserErrorCode.NOT_FOUND,
+			.orElseThrow(() -> new UserAppException(UserAppErrorCode.NOT_FOUND,
 													String.format("User %s does not exist.",
 																  userName))
 						);
@@ -71,7 +71,7 @@ public class UserService {
 
 		// 2. password 검사
 		if (! encoder.matches(password, loginTryUser.getPassword())) {
-			throw new UserAppException(UserErrorCode.INVALID_PASSWORD,
+			throw new UserAppException(UserAppErrorCode.INVALID_PASSWORD,
 									   "The password is incorrect. Please check again.");
 		}
 
