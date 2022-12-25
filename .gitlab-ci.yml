@@ -9,7 +9,9 @@
 # workflow - rule 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_MERGE_REQUEST_ID
+      when: always
+    - if: $CI_COMMIT_BRANCH == "master"
       when: always
 
 # stages: Define task stage order
