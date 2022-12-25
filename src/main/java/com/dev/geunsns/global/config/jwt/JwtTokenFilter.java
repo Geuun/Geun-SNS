@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.config;
+package com.dev.geunsns.global.config.jwt;
 
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
