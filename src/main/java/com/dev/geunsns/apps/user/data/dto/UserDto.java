@@ -21,7 +21,7 @@ public class UserDto {
 
 	// Entity -> Dto
 	@Builder
-	public static UserDto fromEntity(UserEntity userEntity) {
+	public static UserDto toDto(UserEntity userEntity) {
 		return new UserDto(
 			userEntity.getId(),
 			userEntity.getUserName(),

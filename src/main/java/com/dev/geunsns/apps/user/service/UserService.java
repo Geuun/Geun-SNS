@@ -34,7 +34,7 @@ public class UserService {
 		userRepository.findByUserName(userJoinRequest.getUserName())
 					  .ifPresent(user -> {
 						  throw new UserAppException(UserErrorCode.DUPLICATED_USER_NAME,
-													 String.format("UserName %s is Duplicated",
+													 String.format("UserName '%s' is Duplicated",
 																   userJoinRequest.getUserName()));
 					  });
 
@@ -42,7 +42,7 @@ public class UserService {
 																			encoder.encode(userJoinRequest.getPassword())
 																		   )
 												  );
-		return UserDto.fromEntity(savedUser);
+		return UserDto.toDto(savedUser);
 	}
 
 	public UserDto getUserByUserName(String userName) {
@@ -53,7 +53,7 @@ public class UserService {
 						);
 
 		// Entity -> Dto
-		UserDto user = UserDto.fromEntity(userEntity);
+		UserDto user = UserDto.toDto(userEntity);
 
 		return user;
 	}
