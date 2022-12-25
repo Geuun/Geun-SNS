@@ -6,6 +6,12 @@
 ##  
 ###################################################################################################
 
+# workflow - rule 
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      when: always
+
 # stages: Define task stage order
 # ex) Proceed in order docker-build -> docker-push -> docker-build-push
 stages:
@@ -54,8 +60,6 @@ after_script:
 ## Parallel Operation (amd64 / arm64)
 # For amd64
 amd64:
-  only:
-    - main
   needs: []
   stage: docker-build-push
   script:
@@ -63,8 +67,6 @@ amd64:
 
 # For arm64
 arm64:
-  only:
-    - main
   needs: []
   stage: docker-build-push
   script:
@@ -73,8 +75,6 @@ arm64:
 ###################################################################################################
 
 manifest:
-  only:
-    - main
   needs:
     - job: amd64
     - job: arm64
