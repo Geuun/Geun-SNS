@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	private final UserService userService;
-	private final String RoutePath = "/api/v1/users/";
+	private final String routePath = "/api/v1/users/";
 
 	@PostMapping("/join")
 	public Response<UserJoinResponse> joinUser(@RequestBody UserJoinRequest userJoinRequest) {
 		log.info(String.format("Message: %s", "Member registration attempt detected"));
-		log.info(String.format("Route: %s", RoutePath + "join"));
+		log.info(String.format("Route: %s", routePath + "join"));
 		UserDto userDto = userService.joinUser(userJoinRequest);
 		UserJoinResponse userJoinResponse = new UserJoinResponse(userDto.getId(),
 																 userDto.getUserName());
@@ -37,7 +37,7 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<Response<UserLoginResponse>> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
 		log.info(String.format("Message: %s", "A login attempt has been detected."));
-		log.info(String.format("Route: %s", RoutePath + "login"));
+		log.info(String.format("Route: %s", routePath + "login"));
 		String token = userService.userLogin(userLoginRequest.getUserName(),
 											 userLoginRequest.getPassword());
 		log.info(String.format("UserName : %s getToken", userLoginRequest.getUserName()));
