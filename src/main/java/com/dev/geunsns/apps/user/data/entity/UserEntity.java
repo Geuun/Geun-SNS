@@ -1,7 +1,7 @@
 package com.dev.geunsns.apps.user.data.entity;
 
 import com.dev.geunsns.apps.model.UserRole;
-import com.dev.geunsns.global.data.jpaauditing.entity.BaseEntity;
+import com.dev.geunsns.global.config.auditing.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
