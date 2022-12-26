@@ -2,14 +2,14 @@ package com.dev.geunsns.apps.user.data.dto;
 
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserDto {
 
 	private Long id;
@@ -19,9 +19,16 @@ public class UserDto {
 	// enum
 	private UserRole role;
 
-	// Entity -> Dto
 	@Builder
-	public static UserDto fromEntity(UserEntity userEntity) {
+	public UserDto(Long id, String userName, String password, UserRole role) {
+		this.id = id;
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+	}
+
+	// Entity -> Dto
+	public static UserDto toDto(UserEntity userEntity) {
 		return new UserDto(
 			userEntity.getId(),
 			userEntity.getUserName(),

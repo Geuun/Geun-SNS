@@ -25,12 +25,12 @@ public class ExceptionManager {
 	//UserApp
 	@ExceptionHandler(UserAppException.class)
 	public ResponseEntity<?> userAppException(UserAppException e) {
-		ErrorResponse errorResponse = new ErrorResponse(e.getUserErrorCode(),
+		ErrorResponse errorResponse = new ErrorResponse(e.getUserAppErrorCode(),
 														e.getUserErrorMessage());
 		log.info(String.valueOf(errorResponse));
 		return ResponseEntity
 			.status(e
-						.getUserErrorCode()
+						.getUserAppErrorCode()
 						.getHttpStatus()) // e 에서 상태코드 반환
 			.body(Response.error("ERROR", errorResponse)); // e 에서 메세지 반환
 	}

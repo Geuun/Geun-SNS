@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserAppException extends RuntimeException {
 
-	private UserErrorCode userErrorCode;
+	private UserAppErrorCode userAppErrorCode;
 	private String userErrorMessage;
 
 	// 메세지 입력안했을 때 enum메세지 반환
-	public UserAppException(UserErrorCode userErrorCode) {
-		this.userErrorCode = userErrorCode;
-		this.userErrorMessage = userErrorCode.getErrorMessage();
+	public UserAppException(UserAppErrorCode userAppErrorCode) {
+		this.userAppErrorCode = userAppErrorCode;
+		this.userErrorMessage = userAppErrorCode.getErrorMessage();
 	}
 }
