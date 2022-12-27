@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostAddResponse {
+public class PostResponse {
 
-	private Integer postId;
+	private Long postId;
 	private String message;
 
 	@Builder
-	public PostAddResponse(String message, Integer postId) {
+	public PostResponse(String message, Long postId) {
 		this.message = message;
 		this.postId = postId;
 	}

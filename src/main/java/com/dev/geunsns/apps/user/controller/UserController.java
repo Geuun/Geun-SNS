@@ -38,8 +38,7 @@ public class UserController {
 	public ResponseEntity<Response<UserLoginResponse>> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
 		log.info(String.format("Message: %s", "A login attempt has been detected."));
 		log.info(String.format("Route: %s", routePath + "login"));
-		String token = userService.userLogin(userLoginRequest.getUserName(),
-											 userLoginRequest.getPassword());
+		String token = userService.userLogin(userLoginRequest);
 		log.info(String.format("UserName : %s getToken", userLoginRequest.getUserName()));
 		return ResponseEntity
 			.ok()

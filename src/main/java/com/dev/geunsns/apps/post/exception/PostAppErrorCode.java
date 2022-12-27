@@ -15,6 +15,7 @@ public enum PostAppErrorCode {
 	POST_NOT_FOUND(HttpStatus.NOT_FOUND, "The Post was not founded. Please try again."),
 	USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "The User was not founded. Please try again."),
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "The Comment was not founded. Please try again."),
+	DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Not found in database")
 	;
 
 	private HttpStatus httpStatus;
