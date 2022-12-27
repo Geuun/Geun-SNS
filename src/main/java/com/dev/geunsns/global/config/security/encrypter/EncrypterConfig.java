@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.config.encrypter;
+package com.dev.geunsns.global.config.security.encrypter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
