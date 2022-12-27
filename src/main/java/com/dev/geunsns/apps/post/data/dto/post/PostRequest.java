@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.post.data.dto.post.addpost;
+package com.dev.geunsns.apps.post.data.dto.post;
 
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
