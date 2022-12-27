@@ -21,6 +21,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
 
@@ -54,7 +55,6 @@ public class UserEntity extends BaseEntity {
 		return List.of(new SimpleGrantedAuthority(role.toString()));
 	}
 
-	@Builder.Default
 	@OneToMany(mappedBy = "user")
 	private List<PostEntity> post = new ArrayList<>();
 
