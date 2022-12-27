@@ -24,13 +24,13 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
-                .apiInfo(this.apiInfo())
-                .securityContexts(Arrays.asList(securityContext()))
-                .securitySchemes(Arrays.asList(apiKey()))
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/**"))
-                .build();
+            .apiInfo(this.apiInfo())
+            .securityContexts(Arrays.asList(securityContext()))
+            .securitySchemes(Arrays.asList(apiKey()))
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.ant("/api/**"))
+            .build();
     }
 
     @Bean
@@ -39,31 +39,30 @@ public class SwaggerConfig {
     }
 
     public ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Geun-SNS Rest API Documentation")
-                .description("Geun-SNS")
-                .version("v1")
-                .build();
+        return new ApiInfoBuilder().title("Geun-SNS Rest API Documentation")
+                                   .description("Geun-SNS")
+                                   .version("v1")
+                                   .build();
     }
 
     private ApiKey apiKey() { // button 클릭 시 입력하는 값 설정
         return new ApiKey("Authorization",
-                "Authorization",
-                "header");
+                          "Authorization",
+                          "header");
     }
 
     private SecurityContext securityContext() { // 인증 방식 설정
         return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .build();
+                              .securityReferences(defaultAuth())
+                              .build();
     }
 
     private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global",
-                "accessEverything");
+                                                                       "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference("Authorization",
-                authorizationScopes));
+                                                   authorizationScopes));
     }
 }

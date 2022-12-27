@@ -1,18 +1,10 @@
 package com.dev.geunsns.apps.user.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.dto.login.UserLoginRequest;
-import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
+import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(UserControllerTest.class)
 class UserControllerTest {
 
     @Autowired
@@ -82,7 +82,7 @@ class UserControllerTest {
 
         String userName = "testName";
         String password = "testPwd";
-        String token = userService.userLogin(userName, password);
+        String token = userService.userLogin(any());
         System.out.println("token : " + token);
 
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
@@ -90,7 +90,7 @@ class UserControllerTest {
             .password(password)
             .build();
 
-        when(userService.userLogin(userName, password))
+        when(userService.userLogin(userLoginRequest))
             .thenReturn(token);
 
         mockMvc.perform(post("/api/v1/users/login")
@@ -111,7 +111,7 @@ class UserControllerTest {
             .password("1234")
             .build();
 
-        when(userService.userLogin(any(), any()))
+        when(userService.userLogin(any()))
             .thenThrow(new UserAppException(UserAppErrorCode.NOT_FOUND));
 
         mockMvc.perform(post("/api/v1/users/login")
@@ -132,7 +132,7 @@ class UserControllerTest {
             .password("1234")
             .build();
 
-        when(userService.userLogin(any(), any()))
+        when(userService.userLogin(any()))
             .thenThrow(new UserAppException(UserAppErrorCode.INVALID_PASSWORD));
 
         mockMvc.perform(post("/api/v1/users/login")
@@ -142,4 +142,6 @@ class UserControllerTest {
             .andDo(print())
             .andExpect(status().isBadRequest());
     }
+
+
 }
