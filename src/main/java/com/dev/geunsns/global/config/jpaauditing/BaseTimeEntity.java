@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.config.auditing;
+package com.dev.geunsns.global.config.jpaauditing;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

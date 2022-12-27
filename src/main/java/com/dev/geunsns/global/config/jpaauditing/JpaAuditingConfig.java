@@ -1,6 +1,5 @@
-package com.dev.geunsns.global.config.auditing;
+package com.dev.geunsns.global.config.jpaauditing;
 
-import com.dev.geunsns.global.config.auditing.AuditorAwareImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

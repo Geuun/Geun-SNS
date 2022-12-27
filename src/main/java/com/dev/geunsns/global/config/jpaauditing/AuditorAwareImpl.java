@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.config.auditing;
+package com.dev.geunsns.global.config.jpaauditing;
 
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
