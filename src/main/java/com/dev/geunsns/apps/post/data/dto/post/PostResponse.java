@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.post.data.dto.post.addpost;
+package com.dev.geunsns.apps.post.data.dto.post;
 
 import lombok.AccessLevel;
 import lombok.Builder;

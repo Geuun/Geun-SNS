@@ -1,12 +1,12 @@
 package com.dev.geunsns.global.data.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ErrorResponse<T> {
 
 	/**
@@ -14,4 +14,10 @@ public class ErrorResponse<T> {
 	 */
 	private T errorCode;
 	private String errorMessage;
+
+	@Builder
+	public ErrorResponse(T errorCode, String errorMessage) {
+		this.errorCode = errorCode;
+		this.errorMessage = errorMessage;
+	}
 }
