@@ -41,12 +41,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 				log.info("token : {}", token);
 			}
 
-			String userName = JwtUtils.getUserName(token, secretKey);
+			String userName = JwtUtils.getUsername(token, secretKey);
 			UserEntity userDetails = userService.getUserByUserName(userName);
 			log.info("userName: {}", userName);
 			log.info("userDetailsName: {}", userDetails.getUserName());
 
-			if (! JwtUtils.validateToken(token, userDetails.getUserName(), secretKey)) {
+			if (! JwtUtils.validate(token, userDetails.getUserName(), secretKey)) {
 				filterChain.doFilter(request, response);
 				return;
 			}

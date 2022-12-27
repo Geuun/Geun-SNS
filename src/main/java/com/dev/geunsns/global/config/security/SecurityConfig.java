@@ -31,7 +31,7 @@ public class SecurityConfig {
 
 	public static final String [] permitPostList = {
 			"/api/v1/posts",
-			"/api/v1/posts/**"
+			"/api/v1/posts/*"
 	};
 
 	@Bean
