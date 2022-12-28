@@ -79,14 +79,14 @@
 
 ![2022-12-27_9 35 39](https://user-images.githubusercontent.com/89567475/209871056-d013a2e3-fa62-4dbf-b9ab-eaab340d2683.png)
 
-> TestCode 실행 중 마주친 에러입니다.
-> postController 에 대한 오류 구문이었어서 해당 클래스에 오류가 있는 줄 알고 엄청 찾아봤지만,
-> 구글링에서 나온 자료로는 해결할 수 없었습니다.
-> 왜냐하면 PostController에 대한 오류 구문이었지만,
-> PostController 에 대한 테스트코드는 정상적으로 작동 하고 있었기 때문입니다.
-> 그럼 왜 UserController 에서 오류가 났는지 디버깅을 해보며 해결책을 찾아봤습니다.
-> 해결책은 생각보다 간단했는데, `@WebMvcTest(UserControllerTest.class)`에서
-> `(UserControllerTest.class)`부분을 빼먹었더니 Unit Test에서 모든 의존성을 불러와서 생긴 오류였습니다,,,,,
+> TestCode 실행 중 마주친 에러입니다.  
+> postController 에 대한 오류 구문이었어서 해당 클래스에 오류가 있는 줄 알고 엄청 찾아봤지만,  
+> 구글링에서 나온 자료로는 해결할 수 없었습니다.  
+> 왜냐하면 PostController에 대한 오류 구문이었지만,  
+> PostController 에 대한 테스트코드는 정상적으로 작동 하고 있었기 때문입니다.  
+> 그럼 왜 UserController 에서 오류가 났는지 디버깅을 해보며 해결책을 찾아봤습니다.  
+> 해결책은 생각보다 간단했는데, `@WebMvcTest(UserControllerTest.class)`에서  
+> `(UserControllerTest.class)`부분을 빼먹었더니 Unit Test에서 모든 의존성을 불러와서 생긴 오류였습니다,,,,,  
 
 </div>
 </details>
@@ -108,15 +108,15 @@
 > 1. Raspberry 4b
 > 2. AWS
 > 
-> 위 두 서버는 CPU Architecture가 다르기 때문에 Docker Image 를 두 가지로 빌드 해줘야하는 상황이 발생했습니다.
-> 그래서 처음에는 두 Architecture를 각각 빌드해서 Docker Image 의 Tag를 다르게 빌드하고
-> 각 환경에서 맞는 Architectur의 Tag를 지정해서 끌어다쓰는 방식으로 CI PipeLine을 구성했습니다.
-> 그러나, 하나씩 빌드하는 CI PipeLine 이었고, 각각 빌드하는데 시간이 거의 20분 가량 소모되었습니다. 
-> 그리고 각각 Tag를 지정해서 Docker Container 를 띄우는 것도 CI/CD의 목적과는 맞지 않는다고 생각해서
-> 두 가지 Architecture 를 병렬적으로 빌드할 수 있고 하나의 이미지로 합쳐서 관리할 수 있는 방법을 찾아보았고
-> CI PipeLine 상에서 두 가지 Architecture에 대해 병렬적으로 빌드한 뒤 
-> Docker Manifest 기능을 이용해서 두가지 이미지를 하나로 합쳐주는 작업을 진행했습니다.
-> 해당 Trouble Shooting 과정을 거치면서 기존에 20분 걸리던 빌드 시간은 약 3분으로 단축되었습니다.
+> 위 두 서버는 CPU Architecture가 다르기 때문에 Docker Image 를 두 가지로 빌드 해줘야하는 상황이 발생했습니다.  
+> 그래서 처음에는 두 Architecture를 각각 빌드해서 Docker Image 의 Tag를 다르게 빌드하고  
+> 각 환경에서 맞는 Architectur의 Tag를 지정해서 끌어다쓰는 방식으로 CI PipeLine을 구성했습니다.  
+> 그러나, 하나씩 빌드하는 CI PipeLine 이었고, 각각 빌드하는데 시간이 거의 20분 가량 소모되었습니다.  
+> 그리고 각각 Tag를 지정해서 Docker Container 를 띄우는 것도 CI/CD의 목적과는 맞지 않는다고 생각해서  
+> 두 가지 Architecture 를 병렬적으로 빌드할 수 있고 하나의 이미지로 합쳐서 관리할 수 있는 방법을 찾아보았고  
+> CI PipeLine 상에서 두 가지 Architecture에 대해 병렬적으로 빌드한 뒤  
+> Docker Manifest 기능을 이용해서 두가지 이미지를 하나로 합쳐주는 작업을 진행했습니다.  
+> 해당 Trouble Shooting 과정을 거치면서 기존에 20분 걸리던 빌드 시간은 약 3분으로 단축되었습니다.  
 
 
 </div>
