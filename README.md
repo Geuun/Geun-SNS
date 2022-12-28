@@ -100,6 +100,7 @@
 ### 2. CPU Multi Architecture 에서의 배포
 
 ![스크린샷 2022-12-22 오전 9 25 06](https://user-images.githubusercontent.com/89567475/209870996-a53d3eed-8942-4eec-8df3-f4013cbf233a.png)
+
 ![스크린샷 2022-12-24 오전 12 20 59](https://user-images.githubusercontent.com/89567475/209871002-0d4c61cc-1ca4-40a4-81ca-768d0ffc52a1.png)
 
 > 제가 사용하고 있는 서버 환경은 총 2가지 입니다.
