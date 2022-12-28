@@ -32,8 +32,10 @@ class UserServiceTest {
 	void joinUser() {
 
 		Mockito.when(userRepository.save(any()))
-			   .thenReturn(new UserEntity("testUser",
-										  "testPwd"));
+			   .thenReturn(UserEntity.builder()
+									 .userName("testUSer")
+									 .password("testPwd")
+									 .build());
 
 		UserDto userJoinRequest =
 			userService.joinUser(new UserJoinRequest("testUser",
