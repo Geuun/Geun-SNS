@@ -1,5 +1,6 @@
 package com.dev.geunsns.apps.user.service;
 
+import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.dto.login.UserLoginRequest;
@@ -40,7 +41,7 @@ public class UserService {
                 });
 
         UserEntity savedUser = userRepository.save(userJoinRequest.toEntity(userJoinRequest.getUserName(),
-                        encoder.encode(userJoinRequest.getPassword())
+                        encoder.encode(userJoinRequest.getPassword()), UserRole.ROLE_USER
                 )
         );
         return UserDto.toDto(savedUser);
