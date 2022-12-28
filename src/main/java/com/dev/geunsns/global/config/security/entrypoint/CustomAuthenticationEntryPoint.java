@@ -1,5 +1,7 @@
 package com.dev.geunsns.global.config.security.entrypoint;
 
+import com.dev.geunsns.global.data.response.ErrorResponse;
+import com.dev.geunsns.global.data.response.Response;
 import com.dev.geunsns.global.exception.GlobalErrorCode;
 import com.dev.geunsns.global.exception.GlobalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,10 +28,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        GlobalException globalException = new GlobalException(GlobalErrorCode.UNAUTHORIZED);
+        GlobalErrorCode errorCode = GlobalErrorCode.UNAUTHORIZED;
+
+        Response errorResponse = Response.error(new ErrorResponse(errorCode.getHttpStatus(), errorCode.getErrorMessage()));
 
         response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().write(objectMapper.writeValueAsString(globalException));
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }
 }

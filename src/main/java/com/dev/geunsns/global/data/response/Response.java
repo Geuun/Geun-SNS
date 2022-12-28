@@ -17,15 +17,11 @@ public class Response<T> {
 		this.result = result;
 	}
 
-	public static <T> Response<T> error(String resultCode, T result) {
-		return new Response(resultCode, result);
+	public static <T> Response success(T successResponse){
+		return new Response("SUCCESS", successResponse);
 	}
 
-	public static <T> Response<T> success(String resultCode, T result) {
-		return new Response(resultCode, result);
-	}
-
-	public static <T> Response<T> success(T result) {
-		return new Response("SUCCESS", result);
+	public static <T> Response error(T errorResponse) {
+		return new Response("ERROR", errorResponse);
 	}
 }

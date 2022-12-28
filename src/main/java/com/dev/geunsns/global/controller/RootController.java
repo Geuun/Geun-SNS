@@ -13,6 +13,6 @@ public class RootController {
 
 	@GetMapping("/api/v1/hello")
 	public String hello() {
-		return "happy_new_year";
+		return "김재근";
 	}
 }

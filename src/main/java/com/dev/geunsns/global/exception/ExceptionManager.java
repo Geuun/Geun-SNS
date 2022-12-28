@@ -19,7 +19,7 @@ public class ExceptionManager {
 		ErrorResponse errorResponse = new ErrorResponse(e.getCause(), e.getMessage());
 		return ResponseEntity
 			.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(Response.error("SERVER_ERROR", errorResponse));
+			.body(Response.error(errorResponse));
 	}
 
 	//UserApp
@@ -32,6 +32,6 @@ public class ExceptionManager {
 			.status(e
 						.getUserAppErrorCode()
 						.getHttpStatus()) // e 에서 상태코드 반환
-			.body(Response.error("ERROR", errorResponse)); // e 에서 메세지 반환
+			.body(Response.error(errorResponse)); // e 에서 메세지 반환
 	}
 }
