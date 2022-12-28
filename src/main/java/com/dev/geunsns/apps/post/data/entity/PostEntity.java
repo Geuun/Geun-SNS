@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post")
 public class PostEntity extends BaseEntity {
 
@@ -31,6 +31,7 @@ public class PostEntity extends BaseEntity {
 	@OneToMany(mappedBy = "post")
 	private List<CommentEntity> comments = new ArrayList<>();
 
+	@Builder
 	public PostEntity(String title, String body, UserEntity user) {
 		this.title = title;
 		this.body = body;

@@ -36,7 +36,7 @@ public class PostController {
 		log.info("Add Post Title : {}", postAddRequest.getTitle());
 		String userName = authentication.getName();
 		log.info("userName : {} ", userName);
-		PostDto postDto = postService.addPost(postAddRequest.getTitle(), postAddRequest.getBody(), authentication.getName());
+		PostDto postDto = postService.addPost(postAddRequest, authentication.getName());
 
 		return Response.success(new PostResponse("SUCCESS", postDto.getId()));
 	}

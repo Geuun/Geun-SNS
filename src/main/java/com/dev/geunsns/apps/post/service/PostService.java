@@ -36,19 +36,19 @@ public class PostService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    public PostDto addPost(String title, String body, String userName) {
+    public PostDto addPost(PostRequest postRequest, String userName) {
         /**
          * 작성 성공 -> postId와 함께 200 반환
          * 작성 실패 -> UserNamed
          */
-        log.info(String.format("addPost - title: %s, body: %s, userName: %s", title, body, userName));
+        log.info(String.format("addPost - title: %s, body: %s, userName: %s", postRequest.getTitle(), postRequest.getBody(), userName));
         UserEntity userEntity =
                 userRepository.findByUserName(userName)
                         .orElseThrow(() -> new UserAppException(UserAppErrorCode.NOT_FOUND,
                                 String.format("UserName %s's post could not be found.",
                                         userName)));
 
-        PostEntity savedPostEntity = postRepository.save(new PostEntity(title, body, userEntity));
+        PostEntity savedPostEntity = postRepository.save(new PostEntity(postRequest.getTitle(), postRequest.getBody(), userEntity));
 
         PostDto postDto = PostDto.builder()
                 .id(savedPostEntity.getId())
