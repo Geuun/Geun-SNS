@@ -29,37 +29,29 @@ public class SecurityConfig {
 			"/api/v1/users/login"
 	};
 
-	public static final String [] permitPostList = {
-			"/api/v1/posts",
-			"/api/v1/posts/*"
+	public static final String [] permitList = {
+			"/api/v1/**"
 	};
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-		// HTTP Basic Auth 인증창 해제
-		httpSecurity.httpBasic().disable();
-		// REST -> csrf 보안 필요 x -> Disavle
-		httpSecurity.csrf().disable();
-
-		// Cross-Origin Resource Sharing
-		httpSecurity.cors();
-
-		// path 권한 설정
-		httpSecurity.authorizeRequests()
-				.antMatchers(permitAllList).permitAll() // permitAll 세팅
-				.antMatchers(HttpMethod.POST, permitPostList).authenticated(); //인증된 사용자에게만 허용
-
-		// Jwt 사용을 위해서 Spring Security Session 정책 사용 x
-		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-		// 401 exception 처리
-		httpSecurity.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-
-		//
-		httpSecurity.addFilterBefore(new JwtTokenFilter(userService, secretKey),
-				UsernamePasswordAuthenticationFilter.class);
-
-		return httpSecurity.build();
+		return httpSecurity
+			.httpBasic().disable()
+			.csrf().disable()
+			.cors().and()
+			.authorizeRequests()
+			.antMatchers("/api/v1/users/join", "/api/v1/users/login").permitAll()
+			.antMatchers("/api/v1/users/{id}/role/change").hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST,"/api/v1/**").authenticated()
+			.antMatchers(HttpMethod.PUT,"/api/v1/**").authenticated()
+			.antMatchers(HttpMethod.DELETE,"/api/v1/**").authenticated()
+			.and()
+			.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+			.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.addFilterBefore(new JwtTokenFilter(userService, secretKey), UsernamePasswordAuthenticationFilter.class)
+			.build();
 	}
 }

@@ -31,7 +31,7 @@ public class UserController {
 		UserDto userDto = userService.joinUser(userJoinRequest);
 		UserJoinResponse userJoinResponse = new UserJoinResponse(userDto.getId(),
 																 userDto.getUserName());
-		return Response.success("SUCCESS", userJoinResponse);
+		return Response.success(userJoinResponse.getUserId());
 	}
 
 	@PostMapping("/login")

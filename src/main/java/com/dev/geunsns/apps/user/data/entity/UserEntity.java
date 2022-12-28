@@ -3,6 +3,7 @@ package com.dev.geunsns.apps.user.data.entity;
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
+import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
 
 import javax.persistence.*;
@@ -38,26 +39,22 @@ public class UserEntity extends BaseEntity {
 
 	private LocalDateTime deletedAt;
 
-	@Builder
-	public UserEntity(String userName, String password) {
-		this.userName = userName;
-		this.password = password;
-	}
-
-	@Builder
-	public UserEntity(Long id, String userName, String password) {
-		this.id = id;
-		this.userName = userName;
-		this.password = password;
-	}
-
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(role.toString()));
-	}
-
 	@OneToMany(mappedBy = "user")
 	private List<PostEntity> post = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user")
 	private List<CommentEntity> comments = new ArrayList<>();
+
+	@Builder
+	public UserEntity(Long id, String userName, String password, UserRole role, LocalDateTime deletedAt) {
+		this.id = id;
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+		this.deletedAt = deletedAt;
+	}
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.toString()));
+	}
 }

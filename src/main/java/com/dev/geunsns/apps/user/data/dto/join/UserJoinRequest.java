@@ -1,8 +1,8 @@
 package com.dev.geunsns.apps.user.data.dto.join;
 
+import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +20,12 @@ public class UserJoinRequest {
 		this.password = password;
 	}
 
-	public UserEntity toEntity(String userName, String password) {
+	public UserEntity toEntity(String userName, String password, UserRole role) {
 		return UserEntity
 			.builder()
 			.userName(userName)
 			.password(password)
+			.role(role)
 			.build();
 	}
 }
