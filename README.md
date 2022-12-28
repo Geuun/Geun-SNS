@@ -71,11 +71,11 @@
 
 
 
-<details>
-<summary>Trouble Shooting List</summary>
-<div markdown="1">
+## Trouble Shooting
 
-### 1. `Error creating bean with name 'postController` Error
+<details>
+<summary>Error creating bean with name 'postController'</summary>
+<div markdown="1">
 
 ![2022-12-27_9 35 39](https://user-images.githubusercontent.com/89567475/209871056-d013a2e3-fa62-4dbf-b9ab-eaab340d2683.png)
 
@@ -88,6 +88,14 @@
 > 해결책은 생각보다 간단했는데, `@WebMvcTest(UserControllerTest.class)`에서
 > `(UserControllerTest.class)`부분을 빼먹었더니 Unit Test에서 모든 의존성을 불러와서 생긴 오류였습니다,,,,,
 
+</div>
+</details>
+
+
+
+<details>
+<summary>CPU Multi Architecture 에서의 배포</summary>
+<div markdown="1">
 
 ### 2. CPU Multi Architecture 에서의 배포
 
@@ -109,8 +117,9 @@
 > Docker Manifest 기능을 이용해서 두가지 이미지를 하나로 합쳐주는 작업을 진행했습니다.
 > 해당 Trouble Shooting 과정을 거치면서 기존에 20분 걸리던 빌드 시간은 약 3분으로 단축되었습니다.
 
-### 3. 
-
 
 </div>
 </details>
+
+
+
