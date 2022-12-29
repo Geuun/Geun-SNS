@@ -1,7 +1,7 @@
 package com.dev.geunsns.global.controller;
 
 
-import com.dev.geunsns.global.service.AlgorithmService;
+import com.dev.geunsns.global.service.RootService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class RootController {
 
-	private final AlgorithmService algorithmService;
+	private final RootService rootService;
 
 	@GetMapping("/hello")
 	public String hello() {
@@ -24,6 +24,6 @@ public class RootController {
 
 	@GetMapping("/hello/{num}")
 	public Integer sum(@PathVariable Integer num){
-		return algorithmService.SumOfDigit(num);
+		return rootService.sumOfDigit(num);
 	}
 }

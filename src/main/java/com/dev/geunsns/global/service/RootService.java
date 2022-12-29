@@ -4,9 +4,9 @@ package com.dev.geunsns.global.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AlgorithmService {
+public class RootService {
 
-    public Integer SumOfDigit(Integer num) {
+    public Integer sumOfDigit(Integer num) {
         int sum = 0;
 
         while (num > 0) {
