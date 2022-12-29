@@ -50,9 +50,9 @@
 
 ## EndPoints
 
-- `Raspberry Server` (Arm64) : http://geun.me:9999/swagger-ui.html
+- `Raspberry Server` (Arm64) : http://geun.me:9999/swagger-ui.html#/
 
-- `AWS Server` (Amd64) : http://ec2-15-164-170-144.ap-northeast-2.compute.amazonaws.com:9999/swagger-ui/#/
+- `AWS Server` (Amd64) : http://ec2-15-164-170-144.ap-northeast-2.compute.amazonaws.com:9999/swagger-ui.html#/
 
 |  | REST | Route | API |
 |:-----:|:------------------:|:-----------------------------:|:-----------------------------:|
