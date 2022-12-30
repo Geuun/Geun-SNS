@@ -36,6 +36,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
+    @Transactional
     public PostDto addPost(PostRequest postRequest, String userName) {
         /**
          * 작성 성공 -> postId와 함께 200 반환
@@ -57,6 +58,7 @@ public class PostService {
         return postDto;
     }
 
+    @Transactional
     public PostDetailResponse getPost(String userName, Long postId){
 
         UserEntity userEntity = userRepository.findByUserName(userName)
@@ -75,7 +77,12 @@ public class PostService {
         return postDetailResponse;
     }
 
+    @Transactional
     public Page<PostDto> getPostList(Pageable pageable) {
+
+        try {
+
+        }
         Page<PostEntity> postEntities = postRepository.findAll(pageable);
         Page<PostDto> postDtos = PostDto.toDtoList(postEntities);
 
