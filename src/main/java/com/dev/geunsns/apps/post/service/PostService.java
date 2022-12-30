@@ -79,10 +79,7 @@ public class PostService {
 
     @Transactional
     public Page<PostDto> getPostList(Pageable pageable) {
-
-        try {
-
-        }
+        
         Page<PostEntity> postEntities = postRepository.findAll(pageable);
         Page<PostDto> postDtos = PostDto.toDtoList(postEntities);
 
