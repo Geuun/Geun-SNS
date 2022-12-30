@@ -36,7 +36,6 @@ public class CommentDto {
         this.modifiedBy = modifiedBy;
     }
 
-
     public static CommentDto toDto(CommentEntity commentEntity) {
         return new CommentDto(
                 commentEntity.getId(),

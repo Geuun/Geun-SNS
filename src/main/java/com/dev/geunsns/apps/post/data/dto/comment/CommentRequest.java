@@ -11,6 +11,8 @@ public class CommentRequest {
 
     private String comment;
 
+
+    // Request -> Entity
     public CommentEntity toEntity(String comment) {
         return CommentEntity.builder()
                 .comment(comment)

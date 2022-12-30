@@ -9,8 +9,6 @@ public class CommentSimpleResponse {
     private String message;
     private Long id;
 
-
-
     @Builder
     public CommentSimpleResponse(String message, Long id) {
         this.message = message;

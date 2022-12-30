@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentEntity extends BaseEntity {
 
@@ -25,10 +24,6 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public void updateComment(CommentEntity update){
-        this.comment = update.comment;
-    }
-
     @Builder
     public CommentEntity(Long id, String comment, PostEntity post, UserEntity user) {
         this.id = id;
@@ -37,11 +32,8 @@ public class CommentEntity extends BaseEntity {
         this.user = user;
     }
 
-    public static CommentEntity of(UserEntity userEntity, PostEntity postEntity, String comment) {
-        CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setUser(userEntity);
-        commentEntity.setPost(postEntity);
-        commentEntity.setComment(comment);
-        return commentEntity;
+    // Update Comment
+    public void updateComment(CommentEntity update){
+        this.comment = update.comment;
     }
 }

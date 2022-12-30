@@ -35,7 +35,8 @@ public class PostDto {
     }
 
     @Builder
-    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt,
+                   String modifiedBy) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -46,18 +47,18 @@ public class PostDto {
         this.modifiedBy = modifiedBy;
     }
 
-    // Entity -> Dto
+    //Entity -> Dto
     public static PostDto toDto(PostEntity postEntity) {
-        return new PostDto(
-                postEntity.getId(),
-                postEntity.getTitle(),
-                postEntity.getBody(),
-                postEntity.getUser().getUserName(),
-                postEntity.getCreatedAt(),
-                postEntity.getCreatedBy(),
-                postEntity.getLastModifiedAt(),
-                postEntity.getLastModifiedBy()
-        );
+        return PostDto.builder()
+                .id(postEntity.getId())
+                .title(postEntity.getTitle())
+                .body(postEntity.getBody())
+                .userName(postEntity.getUser().getUserName())
+                .createdAt(postEntity.getCreatedAt())
+                .createdBy(postEntity.getCreatedBy())
+                .modifiedAt(postEntity.getLastModifiedAt())
+                .modifiedBy(postEntity.getLastModifiedBy())
+                .build();
     }
 
     // Entity List -> Dto List (양방향 무한참조 방지)

@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post")
 public class PostEntity extends BaseEntity {
@@ -47,8 +46,8 @@ public class PostEntity extends BaseEntity {
 		this.comments = comments;
 	}
 
-	public void update(PostEntity update){
-		this.body = update.body;
+	public void updatePost(PostEntity update){
 		this.title = update.title;
+		this.body = update.body;
 	}
 }
