@@ -28,15 +28,10 @@ public class PostDto {
     private LocalDateTime modifiedAt;
     private String modifiedBy;
 
-    public PostDto(String title, String body, String userName) {
-        this.title = title;
-        this.body = body;
-        this.userName = userName;
-    }
+    private Integer status; // 게시물 상태 (삭제 유무 0, 1)
 
     @Builder
-    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt,
-                   String modifiedBy) {
+    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Integer status) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -45,9 +40,11 @@ public class PostDto {
         this.createdBy = createdBy;
         this.modifiedAt = modifiedAt;
         this.modifiedBy = modifiedBy;
+        this.status = status;
     }
 
-    //Entity -> Dto
+
+    //Entity -> Dto (양방향 무한참조 방지)
     public static PostDto toDto(PostEntity postEntity) {
         return PostDto.builder()
                 .id(postEntity.getId())
@@ -58,11 +55,13 @@ public class PostDto {
                 .createdBy(postEntity.getCreatedBy())
                 .modifiedAt(postEntity.getLastModifiedAt())
                 .modifiedBy(postEntity.getLastModifiedBy())
+                .status(postEntity.getStatus())
                 .build();
     }
 
     // Entity List -> Dto List (양방향 무한참조 방지)
     public static Page<PostDto> toDtoList(Page<PostEntity> postEntities) {
+
         Page<PostDto> postDtoList = postEntities.map(postEntity -> PostDto.builder()
                 .id(postEntity.getId())
                 .title(postEntity.getTitle())
@@ -72,6 +71,7 @@ public class PostDto {
                 .createdBy(postEntity.getCreatedBy())
                 .modifiedAt(postEntity.getLastModifiedAt())
                 .modifiedBy(postEntity.getLastModifiedBy())
+                .status(postEntity.getStatus())
                 .build());
 
         return postDtoList;

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostDetailResponse {
+public class PostGetDetailResponse {
 
     private Long id;
     private String title;
@@ -17,7 +17,7 @@ public class PostDetailResponse {
     private String lastModifiedAt;
 
     @Builder
-    public PostDetailResponse(Long id, String title, String body, String userName, String createdAt, String lastModifiedAt) {
+    public PostGetDetailResponse(Long id, String title, String body, String userName, String createdAt, String lastModifiedAt) {
         this.id = id;
         this.title = title;
         this.body = body;
