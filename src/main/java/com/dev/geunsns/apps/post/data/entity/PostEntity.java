@@ -23,6 +23,10 @@ public class PostEntity extends BaseEntity {
 	private String title;
 	private String body;
 
+	@Column(columnDefinition = "integer default 1")	// TODO:
+													// 생성시 기본 값 1 주입
+	private Integer status;							// -1: 삭제된 상태 0: 비공개 상태 1: 기본상태 개발 필요
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
@@ -31,23 +35,22 @@ public class PostEntity extends BaseEntity {
 	private List<CommentEntity> comments = new ArrayList<>();
 
 	@Builder
-	public PostEntity(String title, String body, UserEntity user) {
-		this.title = title;
-		this.body = body;
-		this.user = user;
-	}
-
-	@Builder
-	public PostEntity(Long id, String title, String body, UserEntity user, List<CommentEntity> comments) {
+	public PostEntity(Long id, String title, String body, Integer status, UserEntity user, List<CommentEntity> comments) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.status = status;
 		this.user = user;
 		this.comments = comments;
 	}
 
-	public void updatePost(PostEntity update){
+
+	public void updatePost(PostEntity update) {
 		this.title = update.title;
 		this.body = update.body;
+	}
+
+	public void deletePost(Integer status) {
+		this.status = status;
 	}
 }

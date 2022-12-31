@@ -1,14 +1,11 @@
 package com.dev.geunsns.apps.post.service;
 
 import com.dev.geunsns.apps.model.UserRole;
-import com.dev.geunsns.apps.post.data.dto.post.PostDetailResponse;
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.PostRequest;
-import com.dev.geunsns.apps.post.data.dto.post.PostResponse;
+import com.dev.geunsns.apps.post.data.dto.post.PostAddRequest;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
-import com.dev.geunsns.apps.post.repository.CommentRepository;
 import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
@@ -22,9 +19,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.Objects;
+
+/**
+ * TODO:
+ * 기본적으로 Entity 를 Dto 로 바꾼 뒤
+ * Response 에 할당하기
+ */
 
 @Service
 @RequiredArgsConstructor
@@ -35,17 +40,22 @@ public class PostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public PostDto addPost(PostRequest postRequest, String userName) {
+    public PostDto addPost(PostAddRequest postAddRequest, String userName) {
         /**
          * 작성 성공 -> postId와 함께 200 반환
          * 작성 실패 -> UserNamed
          */
-        log.info(String.format("addPost - title: %s, body: %s, userName: %s", postRequest.getTitle(), postRequest.getBody(), userName));
+        log.info(String.format("addPost - title: %s, body: %s, userName: %s", postAddRequest.getTitle(), postAddRequest.getBody(), userName));
         UserEntity userEntity =
                 userRepository.findByUserName(userName).orElseThrow(()
                         -> new UserAppException(UserAppErrorCode.NOT_FOUND, String.format("UserName %s's post could not be found.", userName)));
 
-        PostEntity savedPostEntity = postRepository.save(new PostEntity(postRequest.getTitle(), postRequest.getBody(), userEntity));
+        // postAddRequest.getTitle(), postAddRequest.getBody(), userEntity
+        PostEntity savedPostEntity = postRepository.save(PostEntity.builder()
+                .title(postAddRequest.getTitle())
+                .body(postAddRequest.getBody())
+                .user(userEntity)
+                .build());
 
         PostDto postDto = PostDto.builder()
                 .id(savedPostEntity.getId())
@@ -54,8 +64,8 @@ public class PostService {
         return postDto;
     }
 
-    @Transactional
-    public PostDetailResponse getPost(String userName, Long postId) {
+    @Transactional(readOnly = true)
+    public PostDto getPost(String userName, Long postId) {
 
         UserEntity userEntity = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, userName + "없습니다.!"));
@@ -63,31 +73,28 @@ public class PostService {
         PostEntity post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, "게시글이 존재하지않습니다."));
 
-        PostDetailResponse postDetailResponse = PostDetailResponse.builder()
+        PostDto postDto = PostDto.builder()
                 .id(postId)
                 .title(post.getTitle())
                 .body(post.getBody())
-                .lastModifiedAt(post.getLastModifiedAt()
-                        .format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")))
-                .createdAt(post.getCreatedAt()
-                        .format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")))
-                .userName(post.getUser()
-                        .getUserName())
+                .modifiedAt(LocalDateTime.parse(post.getLastModifiedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)))) // -> 2023년 01월 01일 (일) 오전 00시 00분 00초
+                .createdAt(LocalDateTime.parse((post.getCreatedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)))))
+                .userName(post.getUser().getUserName())
                 .build();
-        return postDetailResponse;
+        return postDto;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<PostDto> getPostList(Pageable pageable) {
 
         Page<PostEntity> postEntities = postRepository.findAll(pageable);
-        Page<PostDto> postDtos = PostDto.toDtoList(postEntities);
+        Page<PostDto> postList = PostDto.toDtoList(postEntities);
 
-        return postDtos;
+        return postList;
     }
 
     @Transactional
-    public PostResponse modifyPost(String userName, Long postId, PostRequest postRequest) {
+    public PostDto updatePost(String userName, Long postId, PostAddRequest postAddRequest) {
 
         UserEntity userEntity = userRepository.findByUserName(userName)
                 .orElseThrow(
@@ -102,34 +109,43 @@ public class PostService {
             throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION, "User has no permission with post");
         }
 
-        postEntity.updatePost(postRequest.toEntity(postRequest.getTitle(), postRequest.getBody()));
-        PostResponse postResponse = PostResponse.builder()
-                .postId(postId)
-                .message("SUCCESS")
+        postEntity.updatePost(postAddRequest.toEntity(postAddRequest.getTitle(), postAddRequest.getBody()));
+
+        PostDto updatedPost = PostDto.builder()
+                .id(postId)
+                .title(postAddRequest.getTitle())
+                .body(postAddRequest.getBody())
+                .modifiedBy(userName)
+                .modifiedAt(LocalDateTime.now())
                 .build();
-        return postResponse;
+
+        return updatedPost;
     }
 
-    @Transactional
-    public Long deletePost(Long postId, String userName, Collection<? extends GrantedAuthority> authorities) {
+//    @Transactional
+    public PostDto deletePost(Long postId, String userName, Collection<? extends GrantedAuthority> authorities) {
         // Post check
-        PostEntity postEntity = postRepository.findById(postId)
+        PostEntity savedPost = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND,
                         String.format("postId %d was not found", postId)));
 
-        // 작성유저 일치 여부 확인 and Admin 권한 확인
-        if (!Objects.equals(postEntity.getUser().getUserName(), userName)
-        || !authorities.stream().findFirst().get().getAuthority().equals(UserRole.ROLE_ADMIN.toString())) {
+        // 작성유저 일치 여부 확인 || Admin 권한 확인
+        if (!Objects.equals(savedPost.getUser().getUserName(), userName) && !authorities.stream().findFirst().get().getAuthority().equals(UserRole.ROLE_ADMIN.toString())) {
             throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION,
                     String.format("User #%s  do not have access to Post %d.", userName, postId));
         }
 
+        // Post Delete
         try {
-            postRepository.delete(postEntity);
+            postRepository.delete(savedPost);
         } catch (Exception e) {
             throw new PostAppException(PostAppErrorCode.DATABASE_ERROR);
         }
 
-        return postEntity.getId();
+        PostDto deletedPost = PostDto.builder()
+                .id(postId)
+                .build();
+
+        return deletedPost;
     }
 }
