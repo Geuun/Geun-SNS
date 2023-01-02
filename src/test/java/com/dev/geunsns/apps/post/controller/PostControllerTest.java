@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.add.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
 import com.dev.geunsns.apps.post.service.PostService;
@@ -237,7 +237,6 @@ class PostControllerTest {
         when(postService.deletePost(any(), any(), any()))
                 .thenReturn(PostDto.builder()
                         .id(1L)
-                        .status(-1)
                         .build());
 
         mockMvc.perform(delete("/api/v1/posts/1")

@@ -1,6 +1,5 @@
 package com.dev.geunsns.global.data.response;
 
-import com.dev.geunsns.apps.user.data.dto.login.UserLoginResponse;
 import lombok.*;
 
 @Getter

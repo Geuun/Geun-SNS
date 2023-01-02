@@ -2,7 +2,8 @@ package com.dev.geunsns.apps.post.service;
 
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
@@ -20,8 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -65,22 +64,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDto getPost(String userName, Long postId) {
+    public PostDto getPost(Long postId) {
 
-        UserEntity userEntity = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, userName + "없습니다.!"));
+//        UserEntity userEntity = userRepository.findByUserName(userName)
+//                .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
 
         PostEntity post = postRepository.findById(postId)
-                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, "게시글이 존재하지않습니다."));
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId %s was not found.", postId)));
 
-        PostDto postDto = PostDto.builder()
-                .id(postId)
-                .title(post.getTitle())
-                .body(post.getBody())
-                .modifiedAt(LocalDateTime.parse(post.getLastModifiedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)))) // -> 2023년 01월 01일 (일) 오전 00시 00분 00초
-                .createdAt(LocalDateTime.parse((post.getCreatedAt().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)))))
-                .userName(post.getUser().getUserName())
-                .build();
+        PostDto postDto = PostDto.toDto(post);
+
         return postDto;
     }
 
@@ -94,27 +87,27 @@ public class PostService {
     }
 
     @Transactional
-    public PostDto updatePost(String userName, Long postId, PostAddRequest postAddRequest) {
+    public PostDto updatePost(String userName, Long postId, PostUpdateRequest postUpdateRequest, Collection<? extends GrantedAuthority> authorities) {
 
         UserEntity userEntity = userRepository.findByUserName(userName)
                 .orElseThrow(
-                        () -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, "UserName %s was not found."));
+                        () -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
 
         PostEntity postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND,
-                        "UserName %s's post could not be found."));
+                        String.format("PostId %s was not found.", postId)));
 
-        if (!Objects.equals(postEntity.getUser()
-                .getUserName(), userEntity.getUserName())) {
+        if (!Objects.equals(postEntity.getUser().getUserName(), userEntity.getUserName())
+                && !authorities.contains(UserRole.ROLE_ADMIN)) {
             throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION, "User has no permission with post");
         }
 
-        postEntity.updatePost(postAddRequest.toEntity(postAddRequest.getTitle(), postAddRequest.getBody()));
+        postEntity.updatePost(postUpdateRequest.toEntity(postUpdateRequest.getTitle(), postUpdateRequest.getBody()));
 
         PostDto updatedPost = PostDto.builder()
                 .id(postId)
-                .title(postAddRequest.getTitle())
-                .body(postAddRequest.getBody())
+                .title(postUpdateRequest.getTitle())
+                .body(postUpdateRequest.getBody())
                 .modifiedBy(userName)
                 .modifiedAt(LocalDateTime.now())
                 .build();

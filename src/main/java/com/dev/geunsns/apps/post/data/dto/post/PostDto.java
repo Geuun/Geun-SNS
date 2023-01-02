@@ -28,10 +28,12 @@ public class PostDto {
     private LocalDateTime modifiedAt;
     private String modifiedBy;
 
-    private Integer status; // 게시물 상태 (삭제 유무 0, 1)
+    private Integer postLikeCount;
+
+//    private Integer status; // 게시물 상태 (삭제 유무 0, 1)
 
     @Builder
-    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Integer status) {
+    public PostDto(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy, Integer postLikeCount) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -40,8 +42,9 @@ public class PostDto {
         this.createdBy = createdBy;
         this.modifiedAt = modifiedAt;
         this.modifiedBy = modifiedBy;
-        this.status = status;
+        this.postLikeCount = postLikeCount;
     }
+
 
 
     //Entity -> Dto (양방향 무한참조 방지)
@@ -55,7 +58,7 @@ public class PostDto {
                 .createdBy(postEntity.getCreatedBy())
                 .modifiedAt(postEntity.getLastModifiedAt())
                 .modifiedBy(postEntity.getLastModifiedBy())
-                .status(postEntity.getStatus())
+                .postLikeCount(postEntity.getPostLikeCount())
                 .build();
     }
 
@@ -71,7 +74,7 @@ public class PostDto {
                 .createdBy(postEntity.getCreatedBy())
                 .modifiedAt(postEntity.getLastModifiedAt())
                 .modifiedBy(postEntity.getLastModifiedBy())
-                .status(postEntity.getStatus())
+                .postLikeCount(postEntity.getPostLikeCount())
                 .build());
 
         return postDtoList;

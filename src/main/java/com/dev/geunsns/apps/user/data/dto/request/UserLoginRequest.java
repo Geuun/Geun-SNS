@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.user.data.dto.login;
+package com.dev.geunsns.apps.user.data.dto.request;
 
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import lombok.AccessLevel;

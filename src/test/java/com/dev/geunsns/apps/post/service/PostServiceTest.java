@@ -1,8 +1,8 @@
 package com.dev.geunsns.apps.post.service;
 
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.add.PostAddRequest;
-import com.dev.geunsns.apps.post.data.dto.post.update.PostUpdateRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;

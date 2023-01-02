@@ -3,7 +3,7 @@ package com.dev.geunsns.apps.user.service;
 import static org.mockito.ArgumentMatchers.any;
 
 import com.dev.geunsns.apps.user.data.dto.UserDto;
-import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
+import com.dev.geunsns.apps.user.data.dto.request.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
 import com.dev.geunsns.apps.user.exception.UserAppException;
