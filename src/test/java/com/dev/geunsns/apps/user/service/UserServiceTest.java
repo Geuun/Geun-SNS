@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
+import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
+import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,5 +44,13 @@ class UserServiceTest {
 													 "testPwd"));
 
 		assertEquals("testUser", userJoinRequest.getUserName());
+	}
+
+	@Test
+	@DisplayName("회원등록 실패 - 유저네임 중복")
+	void joinUser_Fail() {
+
+		Mockito.when(userRepository.save(any()))
+				.thenThrow(new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME));
 	}
 }
