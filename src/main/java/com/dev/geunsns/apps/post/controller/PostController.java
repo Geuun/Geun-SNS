@@ -1,8 +1,11 @@
 package com.dev.geunsns.apps.post.controller;
 
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.PostAddRequest;
-import com.dev.geunsns.apps.post.data.dto.post.PostResponse;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.response.PostGetDetailResponse;
+import com.dev.geunsns.apps.post.data.dto.post.response.PostListGetResponse;
+import com.dev.geunsns.apps.post.data.dto.post.response.PostResponse;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.service.PostService;
 import com.dev.geunsns.global.data.response.Response;
 import io.swagger.annotations.ApiOperation;
@@ -41,32 +44,37 @@ public class PostController {
     @GetMapping("/{postId}") // Post view
     public Response findById(@PathVariable Long postId, Authentication authentication) {
 
-        String userName = authentication.getName();
-        PostDto getPost = postService.getPost(userName, postId);
+        PostDto getPost = postService.getPost(postId);
 
-        return Response.success(new PostResponse("GET POST SUCCESS", getPost.getId()));
+        return Response.success(
+                new PostGetDetailResponse(
+                "POST GET SUCCESS", getPost.getId(), getPost.getTitle(),
+                getPost.getBody(), getPost.getUserName(), getPost.getCreatedAt(),
+                getPost.getCreatedBy(), getPost.getModifiedAt(), getPost.getModifiedBy())
+        );
     }
 
     @ApiOperation(value = "Post List 조회 기능", notes = "Post의 List(size = 20)를 조회합니다.")
     @GetMapping //PostList
     public Response getPostList(@PageableDefault(size = 20) @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+
         Page<PostDto> getPostList = postService.getPostList(pageable);
 
-        return Response.success(getPostList);
+        return Response.success(new PostListGetResponse("POST GET LIST SUCCESS", getPostList.getContent(), pageable));
     }
 
     @ApiOperation(value = "Post 수정 기능", notes = "Post 수정할 내용을 입력해주세요.")
-    @PutMapping("/{id}") // Post Update
-    public Response modifyPost(@RequestBody PostAddRequest postAddRequest, @PathVariable Long id, Authentication authentication) {
+    @PutMapping("/{postId}") // Post Update
+    public Response updatePost(@RequestBody PostUpdateRequest postUpdateRequest, @PathVariable Long postId, Authentication authentication) {
         String userName = authentication.getName();
-        PostDto modifiedPost = postService.updatePost(userName, id, postAddRequest);
-        return Response.success(new PostResponse("UPDATE POST SUCCESS", modifiedPost.getId()));
+        PostDto updatedPost = postService.updatePost(userName, postId, postUpdateRequest, authentication.getAuthorities());
+        return Response.success(new PostResponse("POST UPDATE SUCCESS", updatedPost.getId()));
     }
 
     @ApiOperation(value = "Post 삭제 기능", notes = "삭제할 Post의 Id를 입력해주세요")
-    @DeleteMapping("/{id}") // Post Delete
-    public Response deletePost(@PathVariable Long id, Authentication authentication) {
-        PostDto deletedPost = postService.deletePost(id, authentication.getName(), authentication.getAuthorities());
-        return Response.success(new PostResponse("DELETE POST SUCCESS", deletedPost.getId()));
+    @DeleteMapping("/{postId}") // Post Delete
+    public Response deletePost(@PathVariable Long postId, Authentication authentication) {
+        PostDto deletedPost = postService.deletePost(postId, authentication.getName(), authentication.getAuthorities());
+        return Response.success(new PostResponse("POST DELETE SUCCESS", deletedPost.getId()));
     }
 }

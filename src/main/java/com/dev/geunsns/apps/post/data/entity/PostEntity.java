@@ -34,16 +34,22 @@ public class PostEntity extends BaseEntity {
 	@OneToMany(mappedBy = "post")
 	private List<CommentEntity> comments = new ArrayList<>();
 
+	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+	private List<PostLikeEntity> postLikeList = new ArrayList<>();
+
+	private Integer postLikeCount;
+
 	@Builder
-	public PostEntity(Long id, String title, String body, Integer status, UserEntity user, List<CommentEntity> comments) {
+	public PostEntity(Long id, String title, String body, Integer status, UserEntity user, List<CommentEntity> comments, List<PostLikeEntity> postLikeList, Integer postLikeCount) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.status = status;
 		this.user = user;
 		this.comments = comments;
+		this.postLikeList = postLikeList;
+		this.postLikeCount = postLikeCount;
 	}
-
 
 	public void updatePost(PostEntity update) {
 		this.title = update.title;
@@ -52,5 +58,9 @@ public class PostEntity extends BaseEntity {
 
 	public void deletePost(Integer status) {
 		this.status = status;
+	}
+
+	public void updateLikeCnt() {
+		this.postLikeCount = this.postLikeList.size();
 	}
 }

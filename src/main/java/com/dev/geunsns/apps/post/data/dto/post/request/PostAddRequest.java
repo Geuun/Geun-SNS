@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.post.data.dto.post;
+package com.dev.geunsns.apps.post.data.dto.post.request;
 
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import lombok.AccessLevel;

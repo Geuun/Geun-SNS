@@ -1,5 +1,6 @@
-package com.dev.geunsns.apps.post.data.dto.comment;
+package com.dev.geunsns.apps.post.data.dto.comment.response;
 
+import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +13,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentListResponse {
 
-    private List<CommentResponse> content;
+    private String message;
+    private List<CommentDto> content;
     private Pageable pageable;
 
     @Builder
-    public CommentListResponse(List<CommentResponse> content, Pageable pageable) {
+    public CommentListResponse(String message, List<CommentDto> content, Pageable pageable) {
+        this.message = message;
         this.content = content;
         this.pageable = pageable;
     }
