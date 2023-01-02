@@ -2,8 +2,9 @@ package com.dev.geunsns.apps.post.service;
 
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
-import com.dev.geunsns.apps.post.data.dto.comment.CommentRequest;
-import com.dev.geunsns.apps.post.data.dto.comment.CommentResponse;
+import com.dev.geunsns.apps.post.data.dto.comment.response.CommentResponse;
+import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
+import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
@@ -33,32 +34,22 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public CommentResponse addComment(Long postId, String userName, String comment) {
+    public CommentDto addComment(Long postId, String userName, CommentAddRequest commentAddRequest) {
         PostEntity postEntity = postRepository.findById(postId)
-                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND,
-                        String.format("PostId #%d was not found.", postId)));
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId #%d was not found.", postId)));
 
         UserEntity userEntity = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND,
-                        String.format("UserName %s was not found.", userName)));
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
 
-        CommentEntity savedcomment = CommentEntity
-                .builder()
-                .comment(comment)
-                .post(postEntity)
-                .user(userEntity)
-                .build();
-        commentRepository.save(savedcomment);
+        CommentEntity savedComment = commentRepository.save(CommentEntity.builder()
+                        .post(postEntity)
+                        .user(userEntity)
+                        .comment(commentAddRequest.getComment())
+                .build());
 
-        CommentResponse commentResponse = CommentResponse.builder()
-                .id(savedcomment.getId())
-                .comment(comment)
-                .postId(postId)
-                .userName(userName)
-                .createdAt(savedcomment.getCreatedAt()
-                        .format(DateTimeFormatter.ofPattern("yyyy-mm-dd hh:mm:ss")))
-                .build();
-        return commentResponse;
+        CommentDto commentDto = CommentDto.toDto(savedComment);
+
+        return commentDto;
     }
 
     public Page<CommentDto> getComments(Long postId, Pageable pageable) {
@@ -72,18 +63,14 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponse updateComment(Long postId, String userName, CommentRequest commentRequest, Long commentId) {
+    public CommentDto updateComment(String userName, CommentUpdateRequest commentUpdateRequest, Long commentId) {
         UserEntity userEntity = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new PostAppException(PostAppErrorCode.COMMENT_NOT_FOUND,
-                        String.format("UserName %s was not found", userName)));
-
-        PostEntity postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND,
-                        String.format("UserName %s was not found.", userName)));
+                        String.format("UserName @%s was not found", userName)));
 
         CommentEntity commentEntity = commentRepository.findById(commentId)
                 .orElseThrow(() ->
-                        new PostAppException(PostAppErrorCode.DATABASE_ERROR,
+                        new PostAppException(PostAppErrorCode.COMMENT_NOT_FOUND,
                                 "The Commnet was Not found in database"));
 
         commentEntity.getUser()
@@ -94,18 +81,18 @@ public class CommentService {
             throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION, "Author does not match");
         }
 
-        commentEntity.updateComment(commentRequest.toEntity(commentRequest.getComment()));
-        CommentResponse commentResponse = CommentResponse.builder()
-                .comment(commentEntity.getComment())
-                .build();
-        return commentResponse;
+        commentEntity.updateComment(commentUpdateRequest.toEntity(commentUpdateRequest.getComment()));
+
+        CommentDto commentDto = CommentDto.toDto(commentEntity);
+
+        return commentDto;
     }
 
     @Transactional
-    public CommentDto deleteComment(Long id, String userName, Collection<? extends GrantedAuthority> authorities) {
-        CommentEntity commentEntity = commentRepository.findById(id)
+    public CommentDto deleteComment(Long commentId, String userName, Collection<? extends GrantedAuthority> authorities) {
+        CommentEntity commentEntity = commentRepository.findById(commentId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND,
-                        String.format("Comment id #%d was not found", id)));
+                        String.format("Comment id #%d was not found", commentId)));
 
         UserEntity userEntity = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND,
@@ -114,7 +101,7 @@ public class CommentService {
         Long userId = userEntity.getId();
 
         if (!Objects.equals(commentEntity.getUser().getId(), userId) && !authorities.stream().findFirst().get().getAuthority().equals(UserRole.ROLE_ADMIN.toString())) {
-            throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION, String.format("User #%s  do not have access to Comment %d.", userId, id));
+            throw new PostAppException(PostAppErrorCode.INVALID_PERMISSION, String.format("User #%s  do not have access to Comment %d.", userId, commentId));
         }
 
         try {
@@ -124,7 +111,7 @@ public class CommentService {
         }
 
         CommentDto deletedComment = CommentDto.builder()
-                .id(id)
+                .commentId(commentId)
                 .build();
 
         return deletedComment;
