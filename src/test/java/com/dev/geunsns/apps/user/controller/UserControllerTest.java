@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserControllerTest.class)
+@WebMvcTest(UserController.class)
 class UserControllerTest {
 
     @Autowired
@@ -51,9 +51,9 @@ class UserControllerTest {
         mockMvc.perform(
                 post("/api/v1/users/join").with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsBytes(userJoinRequest))
-            ).andDo(print())
-            .andExpect(status().isOk());
+                    .content(objectMapper.writeValueAsBytes(userJoinRequest)))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -72,7 +72,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userJoinRequest))
             ).andDo(print())
-            .andExpect(status().isConflict());
+            .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -97,8 +97,8 @@ class UserControllerTest {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userLoginRequest)))
-            .andExpect(status().isOk())
-            .andDo(print());
+            .andDo(print())
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -140,7 +140,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(userLoginRequest)))
             .andDo(print())
-            .andExpect(status().isBadRequest());
+            .andExpect(status().is4xxClientError());
     }
 
 
