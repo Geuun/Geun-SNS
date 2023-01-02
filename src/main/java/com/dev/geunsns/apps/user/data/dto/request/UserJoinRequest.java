@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.user.data.dto.join;
+package com.dev.geunsns.apps.user.data.dto.request;
 
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;

@@ -2,8 +2,8 @@ package com.dev.geunsns.apps.user.service;
 
 import com.dev.geunsns.apps.model.UserRole;
 import com.dev.geunsns.apps.user.data.dto.UserDto;
-import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
-import com.dev.geunsns.apps.user.data.dto.login.UserLoginRequest;
+import com.dev.geunsns.apps.user.data.dto.request.UserJoinRequest;
+import com.dev.geunsns.apps.user.data.dto.request.UserLoginRequest;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;

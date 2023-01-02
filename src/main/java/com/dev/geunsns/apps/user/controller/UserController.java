@@ -1,10 +1,10 @@
 package com.dev.geunsns.apps.user.controller;
 
 import com.dev.geunsns.apps.user.data.dto.UserDto;
-import com.dev.geunsns.apps.user.data.dto.join.UserJoinRequest;
-import com.dev.geunsns.apps.user.data.dto.join.UserJoinResponse;
-import com.dev.geunsns.apps.user.data.dto.login.UserLoginRequest;
-import com.dev.geunsns.apps.user.data.dto.login.UserLoginResponse;
+import com.dev.geunsns.apps.user.data.dto.request.UserJoinRequest;
+import com.dev.geunsns.apps.user.data.dto.response.UserJoinResponse;
+import com.dev.geunsns.apps.user.data.dto.request.UserLoginRequest;
+import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
 import com.dev.geunsns.apps.user.service.UserService;
 import com.dev.geunsns.global.data.response.Response;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,7 @@ public class UserController {
 		log.info(String.format("Message: %s", "Member registration attempt detected"));
 		log.info(String.format("Route: %s", routePath + "join"));
 		UserDto userDto = userService.joinUser(userJoinRequest);
-		UserJoinResponse userJoinResponse = new UserJoinResponse(userDto.getId(),
-																 userDto.getUserName());
-		return Response.success(userJoinResponse.getUserId());
+		return Response.success(new UserJoinResponse(userDto.getId(), userDto.getUserName()));
 	}
 
 	@PostMapping("/login")

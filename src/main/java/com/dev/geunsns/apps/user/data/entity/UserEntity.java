@@ -57,4 +57,6 @@ public class UserEntity extends BaseEntity {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(role.toString()));
 	}
+
+
 }

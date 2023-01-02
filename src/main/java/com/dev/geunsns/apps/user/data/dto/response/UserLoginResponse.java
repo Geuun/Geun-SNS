@@ -1,4 +1,4 @@
-package com.dev.geunsns.apps.user.data.dto.login;
+package com.dev.geunsns.apps.user.data.dto.response;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
