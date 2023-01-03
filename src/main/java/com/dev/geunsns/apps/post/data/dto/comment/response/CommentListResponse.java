@@ -12,14 +12,11 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentListResponse {
-
-    private String message;
     private List<CommentDto> content;
     private Pageable pageable;
 
     @Builder
-    public CommentListResponse(String message, List<CommentDto> content, Pageable pageable) {
-        this.message = message;
+    public CommentListResponse(List<CommentDto> content, Pageable pageable) {
         this.content = content;
         this.pageable = pageable;
     }
