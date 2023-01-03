@@ -37,22 +37,6 @@ public class PostLikeService {
 
         Optional<PostLikeEntity> byPostAndUser = postLikeRepository.findByUserAndPost(user, post);
 
-//        byPostAndUser.ifPresentOrElse(
-//                postLikeEntity -> {
-//                    postLikeRepository.delete(postLikeEntity);
-//                    post.updateLikeCnt(); // Like Cnt Update
-//                },
-//                () -> {
-//                    PostLikeEntity postLikeEntity = PostLikeEntity.builder()
-//                            .user(user)
-//                            .post(post)
-//                            .build();
-//
-//                    postLikeRepository.save(postLikeEntity);
-//                    post.updateLikeCnt(); // Like Cnt Update
-//                }
-//        );
-
         if (byPostAndUser.isEmpty()) {
             PostLikeEntity postLikeEntity = PostLikeEntity.builder()
                     .user(user)
@@ -69,5 +53,12 @@ public class PostLikeService {
 
             return false;
         }
+    }
+
+    public Long getLikeCount(Long postId) {
+        PostEntity post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId %d was not found", postId)));
+
+        return postLikeRepository.countByPost(post);
     }
 }
