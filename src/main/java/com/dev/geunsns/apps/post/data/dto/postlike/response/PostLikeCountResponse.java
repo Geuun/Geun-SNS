@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLikeCountResponse {
     private Long postId;
-    private Long likeCount;
+    private Integer likeCount;
 
     @Builder
-    public PostLikeCountResponse(Long postId, Long likeCount) {
+    public PostLikeCountResponse(Long postId, Integer likeCount) {
         this.postId = postId;
         this.likeCount = likeCount;
     }

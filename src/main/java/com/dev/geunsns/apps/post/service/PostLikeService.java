@@ -44,18 +44,16 @@ public class PostLikeService {
                     .build();
 
             postLikeRepository.save(postLikeEntity);
-            post.updateLikeCnt(); // Like Cnt Update
 
             return true;
         } else {
             postLikeRepository.delete(byPostAndUser.get());
-            post.updateLikeCnt(); // Like Cnt Update
 
             return false;
         }
     }
 
-    public Long getLikeCount(Long postId) {
+    public Integer getLikeCount(Long postId) {
         PostEntity post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId %d was not found", postId)));
 
