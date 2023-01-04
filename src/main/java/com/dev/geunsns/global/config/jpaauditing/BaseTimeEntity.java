@@ -1,9 +1,10 @@
 package com.dev.geunsns.global.config.jpaauditing;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import java.time.format.DateTimeFormatter;
+import javax.persistence.*;
+
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,4 +26,14 @@ public abstract class BaseTimeEntity {
 	@Column
 	private LocalDateTime lastModifiedAt;
 
+//	@PrePersist // Entity 생성되기 직전에 실행
+//	public void onPrePersist() {
+//		this.createdAt = SimpleDateFormat.);
+//		this.lastModifiedAt = createdAt;
+//	}
+//
+//	@PreUpdate // Entity 수정되기 직전에 실행
+//	public void onPreUpdate() {
+//		this.lastModifiedAt =
+//	}
 }

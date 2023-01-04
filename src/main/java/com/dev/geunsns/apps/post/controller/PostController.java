@@ -46,12 +46,9 @@ public class PostController {
 
         PostDto getPost = postService.getPost(postId);
 
-        return Response.success(
-                new PostGetDetailResponse(
-                "POST GET SUCCESS", getPost.getId(), getPost.getTitle(),
-                getPost.getBody(), getPost.getUserName(), getPost.getCreatedAt(),
-                getPost.getCreatedBy(), getPost.getModifiedAt(), getPost.getModifiedBy())
-        );
+        PostGetDetailResponse postGetDetailResponse = PostGetDetailResponse.toResponse(getPost);
+
+        return Response.success(postGetDetailResponse);
     }
 
     @ApiOperation(value = "Post List 조회 기능", notes = "Post의 List(size = 20)를 조회합니다.")

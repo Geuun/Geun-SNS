@@ -1,5 +1,6 @@
 package com.dev.geunsns.apps.post.data.dto.post.response;
 
+import com.dev.geunsns.apps.post.data.dto.post.PostDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,9 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostGetDetailResponse {
 
-    private String message;
-
-    private Long postId;
+    private Long id;
     private String title;
     private String body;
     private String userName;
@@ -23,9 +22,8 @@ public class PostGetDetailResponse {
     private String lastModifiedBy;
 
     @Builder
-    public PostGetDetailResponse(String message, Long postId, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
-        this.message = message;
-        this.postId = postId;
+    public PostGetDetailResponse(Long id, String title, String body, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.userName = userName;
@@ -33,5 +31,18 @@ public class PostGetDetailResponse {
         this.createdBy = createdBy;
         this.lastModifiedAt = lastModifiedAt;
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public static PostGetDetailResponse toResponse(PostDto postDto) {
+        return new PostGetDetailResponse(
+                postDto.getId(),
+                postDto.getTitle(),
+                postDto.getBody(),
+                postDto.getUserName(),
+                postDto.getCreatedAt(),
+                postDto.getCreatedBy(),
+                postDto.getModifiedAt(),
+                postDto.getModifiedBy()
+        );
     }
 }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentResponse {
-    private Long commentId;
+    private Long id;
     private String comment;
     private String userName;
     private Long postId;
@@ -19,8 +19,8 @@ public class CommentResponse {
     private String createdBy;
 
     @Builder
-    public CommentResponse(Long commentId, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy) {
-        this.commentId = commentId;
+    public CommentResponse(Long id, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy) {
+        this.id = id;
         this.comment = comment;
         this.userName = userName;
         this.postId = postId;
@@ -30,7 +30,7 @@ public class CommentResponse {
 
     public static CommentResponse toResponse(CommentDto commentDto) {
         return new CommentResponse(
-                commentDto.getCommentId(),
+                commentDto.getId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
                 commentDto.getPostId(),
