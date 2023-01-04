@@ -6,6 +6,8 @@ import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
 import javax.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE post SET is_deleted = true WHERE id = ?") // Soft Delete
+@Where(clause = "is_deleted = false") // Soft Delete Filter
 @Table(name = "post")
 public class PostEntity extends BaseEntity {
 
@@ -22,10 +26,8 @@ public class PostEntity extends BaseEntity {
 
 	private String title;
 	private String body;
-
-	@Column(columnDefinition = "integer default 1")	// TODO:
-													// 생성시 기본 값 1 주입
-	private Integer status;							// -1: 삭제된 상태 0: 비공개 상태 1: 기본상태 개발 필요
+	private boolean isDeleted = false; // 삭제 여부 : 기본 값 false
+	private Integer postLikeCount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
@@ -37,30 +39,20 @@ public class PostEntity extends BaseEntity {
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
 	private List<PostLikeEntity> postLikeList = new ArrayList<>();
 
-	private Integer postLikeCount;
-
 	@Builder
-	public PostEntity(Long id, String title, String body, Integer status, UserEntity user, List<CommentEntity> comments, List<PostLikeEntity> postLikeList, Integer postLikeCount) {
+	public PostEntity(Long id, String title, String body, boolean isDeleted, Integer postLikeCount, UserEntity user, List<CommentEntity> comments, List<PostLikeEntity> postLikeList) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
-		this.status = status;
+		this.isDeleted = isDeleted;
+		this.postLikeCount = postLikeCount;
 		this.user = user;
 		this.comments = comments;
 		this.postLikeList = postLikeList;
-		this.postLikeCount = postLikeCount;
 	}
 
 	public void updatePost(PostEntity update) {
 		this.title = update.title;
 		this.body = update.body;
-	}
-
-	public void deletePost(Integer status) {
-		this.status = status;
-	}
-
-	public void updateLikeCnt() {
-		this.postLikeCount = this.postLikeList.size();
 	}
 }

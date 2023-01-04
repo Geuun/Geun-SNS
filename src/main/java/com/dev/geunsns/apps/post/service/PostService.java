@@ -7,6 +7,7 @@ import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
+import com.dev.geunsns.apps.post.repository.PostLikeRepository;
 import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
@@ -37,6 +38,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostLikeRepository postLikeRepository;
 
     @Transactional
     public PostDto addPost(PostAddRequest postAddRequest, String userName) {
@@ -138,5 +140,20 @@ public class PostService {
                 .build();
 
         return deletedPost;
+    }
+
+    public PostDto getLikeCount(Long postId) {
+        PostEntity postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND,
+                        String.format("PostId %s was not found.", postId)));
+
+        Integer likeCount = postLikeRepository.countByPost(postEntity);
+
+        PostDto postDto = PostDto.builder()
+                .id(postId)
+                .postLikeCount(likeCount)
+                .build();
+
+        return postDto;
     }
 }
