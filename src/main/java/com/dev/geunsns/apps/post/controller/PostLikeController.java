@@ -34,7 +34,7 @@ public class PostLikeController {
     @GetMapping("/{postId}/likes")
     public Response getLikeCount(@PathVariable Long postId, Authentication authentication) {
 
-        Long likeCount = postLikeService.getLikeCount(postId);
+        Integer likeCount = postLikeService.getLikeCount(postId);
 
         return Response.success(new PostLikeCountResponse(postId, likeCount));
     }
