@@ -1,8 +1,6 @@
 package com.dev.geunsns.apps.post.data.dto.comment;
 
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
-import com.dev.geunsns.apps.post.data.entity.PostEntity;
-import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentDto {
 
-    private Long commentId;
+    private Long id;
     private String comment;
     private String userName;
     private Long postId;
@@ -25,8 +23,8 @@ public class CommentDto {
 
 
     @Builder
-    public CommentDto(Long commentId, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        this.commentId = commentId;
+    public CommentDto(Long id, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        this.id = id;
         this.comment = comment;
         this.userName = userName;
         this.postId = postId;

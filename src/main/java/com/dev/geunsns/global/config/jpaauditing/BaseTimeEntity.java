@@ -1,10 +1,10 @@
 package com.dev.geunsns.global.config.jpaauditing;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -20,10 +20,20 @@ public abstract class BaseTimeEntity {
 
 	@CreatedDate
 	@Column(updatable = false)
-	private LocalDateTime createdAt = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+	private LocalDateTime createdAt;
 
 	@LastModifiedDate
 	@Column
-	private LocalDateTime lastModifiedAt = LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));;
+	private LocalDateTime lastModifiedAt;
 
+//	@PrePersist // Entity 생성되기 직전에 실행
+//	public void onPrePersist() {
+//		this.createdAt = SimpleDateFormat.);
+//		this.lastModifiedAt = createdAt;
+//	}
+//
+//	@PreUpdate // Entity 수정되기 직전에 실행
+//	public void onPreUpdate() {
+//		this.lastModifiedAt =
+//	}
 }

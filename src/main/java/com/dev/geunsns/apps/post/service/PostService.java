@@ -108,8 +108,6 @@ public class PostService {
                 .id(postId)
                 .title(postUpdateRequest.getTitle())
                 .body(postUpdateRequest.getBody())
-                .modifiedBy(userName)
-                .modifiedAt(LocalDateTime.now())
                 .build();
 
         return updatedPost;

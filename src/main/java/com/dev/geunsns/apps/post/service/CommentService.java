@@ -111,7 +111,7 @@ public class CommentService {
         }
 
         CommentDto deletedComment = CommentDto.builder()
-                .commentId(commentId)
+                .id(commentId)
                 .build();
 
         return deletedComment;
