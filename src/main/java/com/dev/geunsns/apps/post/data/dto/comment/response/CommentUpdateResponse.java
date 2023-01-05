@@ -34,14 +34,14 @@ public class CommentUpdateResponse {
 
     public static CommentUpdateResponse toResponse(CommentDto commentDto) {
         return new CommentUpdateResponse(
-                commentDto.getId(),
+                commentDto.getCommentId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
                 commentDto.getPostId(),
                 commentDto.getCreatedAt(),
                 commentDto.getCreatedBy(),
-                commentDto.getModifiedAt(),
-                commentDto.getModifiedBy()
+                commentDto.getLastModifiedAt(),
+                commentDto.getLastModifiedBy()
         );
     }
 }

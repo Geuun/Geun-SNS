@@ -12,26 +12,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentDto {
 
-    private Long id;
+    private Long commentId;
     private String comment;
     private String userName;
     private Long postId;
     private LocalDateTime createdAt;
     private String createdBy;
-    private LocalDateTime modifiedAt;
-    private String modifiedBy;
+    private LocalDateTime lastModifiedAt;
+    private String lastModifiedBy;
 
 
     @Builder
     public CommentDto(Long id, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        this.id = id;
+        this.commentId = id;
         this.comment = comment;
         this.userName = userName;
         this.postId = postId;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
-        this.modifiedAt = modifiedAt;
-        this.modifiedBy = modifiedBy;
+        this.lastModifiedAt = modifiedAt;
+        this.lastModifiedBy = modifiedBy;
     }
 
     public static CommentDto toDto(CommentEntity commentEntity) {

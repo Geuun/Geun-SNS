@@ -11,6 +11,7 @@ import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.fixture.PostEntityFixture;
 import com.dev.geunsns.fixture.TestUserFixture;
 import com.dev.geunsns.fixture.UserEntityFixture;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,33 @@ class CommentControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Test
+    @WithMockUser
+    @DisplayName("댓글 조회 성공")
+    void getPostComment() throws Exception {
+
+        when(commentService.getComment(any()))
+                .thenReturn(CommentDto.builder()
+                        .id(1L)
+                        .postId(1L)
+                        .comment("Test Comment")
+                        .build());
+
+        mockMvc.perform(post("/api/v1/posts/comments/1")
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(CommentDto.builder()
+                        .id(1L)
+                        .postId(1L)
+                        .comment("Test Comment")
+                        .build())))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.id").exists())
+                .andExpect(jsonPath("$.result.postId").exists())
+                .andExpect(jsonPath("$.result.comment").exists());
+    }
 
     @Test
     @WithMockUser
