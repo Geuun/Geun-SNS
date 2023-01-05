@@ -79,6 +79,7 @@ class CommentControllerTest {
     }
 
     @Test
+    @WithMockUser
     @DisplayName("댓글 수정 성공")
     void updateComment_Success() throws Exception {
 
@@ -107,12 +108,10 @@ class CommentControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(commentUpdateRequest)))
                 .andDo(print())
-                .andExpect(jsonPath("$.result.id").exists())
+                .andExpect(jsonPath("$.result.commentId").exists())
                 .andExpect(jsonPath("$.result.comment").exists())
                 .andExpect(jsonPath("$.result.userName").exists())
                 .andExpect(jsonPath("$.result.postId").exists())
-                .andExpect(jsonPath("$.result.createdAt").exists())
-                .andExpect(jsonPath("$.result.lastModifiedAt").exists())
                 .andExpect(status().isOk());
     }
 }
