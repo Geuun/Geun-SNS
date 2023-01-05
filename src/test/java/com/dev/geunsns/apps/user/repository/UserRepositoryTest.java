@@ -52,6 +52,14 @@ class UserRepositoryTest {
         System.out.println(String.format("modifiedAt : %s", savedUser.getLastModifiedAt()));
         System.out.println(String.format("modifiedBy : %s", savedUser.getLastModifiedBy()));
 
-        assertEquals(userName, savedUser.getUserName());
+        assertDoesNotThrow(() -> {
+            assertEquals(userName, savedUser.getUserName());
+            assertEquals(password, savedUser.getPassword());
+            assertEquals("USER", savedUser.getRole());
+            assertNotNull(savedUser.getCreatedAt());
+            assertNotNull(savedUser.getCreatedBy());
+            assertNotNull(savedUser.getLastModifiedAt());
+            assertNotNull(savedUser.getLastModifiedBy());
+        });
     }
 }
