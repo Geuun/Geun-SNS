@@ -20,7 +20,7 @@ public class CommentDeleteResponse {
     public static CommentDeleteResponse toResponse(CommentDto commentDto) {
         return new CommentDeleteResponse(
                 "SUCCESS - DELETE COMMENT",
-                commentDto.getId()
+                commentDto.getCommentId()
         );
     }
 }

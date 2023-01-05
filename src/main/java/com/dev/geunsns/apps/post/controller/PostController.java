@@ -32,8 +32,10 @@ public class PostController {
     @ApiOperation(value = "Post 작성 기능", notes = "Post 작성할 내용을 입력해주세요")
     @PostMapping// 포스트 작성
     public Response addPost(@RequestBody PostAddRequest postAddRequest, Authentication authentication) {
+
         log.info("Add Post Title : {}", postAddRequest.getTitle());
         String userName = authentication.getName();
+
         log.info("userName : {} ", userName);
         PostDto postDto = postService.addPost(postAddRequest, authentication.getName());
 
@@ -63,15 +65,20 @@ public class PostController {
     @ApiOperation(value = "Post 수정 기능", notes = "Post 수정할 내용을 입력해주세요.")
     @PutMapping("/{postId}") // Post Update
     public Response updatePost(@RequestBody PostUpdateRequest postUpdateRequest, @PathVariable Long postId, Authentication authentication) {
+
         String userName = authentication.getName();
+
         PostDto updatedPost = postService.updatePost(userName, postId, postUpdateRequest, authentication.getAuthorities());
+
         return Response.success(new PostResponse("POST UPDATE SUCCESS", updatedPost.getId()));
     }
 
     @ApiOperation(value = "Post 삭제 기능", notes = "삭제할 Post의 Id를 입력해주세요")
     @DeleteMapping("/{postId}") // Post Delete
     public Response deletePost(@PathVariable Long postId, Authentication authentication) {
+
         PostDto deletedPost = postService.deletePost(postId, authentication.getName(), authentication.getAuthorities());
+
         return Response.success(new PostResponse("POST DELETE SUCCESS", deletedPost.getId()));
     }
 }

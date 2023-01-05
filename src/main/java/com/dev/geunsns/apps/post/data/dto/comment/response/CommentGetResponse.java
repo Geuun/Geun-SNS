@@ -10,32 +10,35 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CommentResponse {
-    private Long id;
+public class CommentGetResponse {
+    private Long commentId;
     private String comment;
     private String userName;
-    private Long postId;
     private LocalDateTime createdAt;
     private String createdBy;
+    private LocalDateTime lastModifiedAt;
+    private String lastModifiedBy;
 
     @Builder
-    public CommentResponse(Long id, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy) {
-        this.id = id;
+    public CommentGetResponse(Long commentId, String comment, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
+        this.commentId = commentId;
         this.comment = comment;
         this.userName = userName;
-        this.postId = postId;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
+        this.lastModifiedAt = lastModifiedAt;
+        this.lastModifiedBy = lastModifiedBy;
     }
 
-    public static CommentResponse toResponse(CommentDto commentDto) {
-        return new CommentResponse(
+    public static CommentGetResponse toResponse(CommentDto commentDto) {
+        return new CommentGetResponse(
                 commentDto.getCommentId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
-                commentDto.getPostId(),
                 commentDto.getCreatedAt(),
-                commentDto.getCreatedBy()
+                commentDto.getCreatedBy(),
+                commentDto.getLastModifiedAt(),
+                commentDto.getLastModifiedBy()
         );
     }
 }

@@ -52,6 +52,18 @@ public class CommentService {
         return commentDto;
     }
 
+    @Transactional(readOnly = true) // 조회만 하기 때문에 readOnly = true
+    public CommentDto getComment(Long commentId) {
+
+        CommentEntity comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new PostAppException(PostAppErrorCode.COMMENT_NOT_FOUND, String.format("CommentId #%d was not found.", commentId)));
+
+        CommentDto commentDto = CommentDto.toDto(comment);
+
+        return commentDto;
+    }
+
+    @Transactional(readOnly = true)
     public Page<CommentDto> getComments(Long postId, Pageable pageable) {
         PostEntity postEntity = postRepository.findById(postId)
                 .orElseThrow(() ->

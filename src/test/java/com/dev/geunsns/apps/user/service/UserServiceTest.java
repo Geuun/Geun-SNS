@@ -39,11 +39,7 @@ class UserServiceTest {
 									 .password("testPwd")
 									 .build());
 
-		UserDto userJoinRequest =
-			userService.joinUser(new UserJoinRequest("testUser",
-													 "testPwd"));
-
-		assertEquals("testUser", userJoinRequest.getUserName());
+		assertDoesNotThrow(() -> userService.joinUser(new UserJoinRequest("testUser", "testPwd")));
 	}
 
 	@Test
@@ -52,5 +48,7 @@ class UserServiceTest {
 
 		Mockito.when(userRepository.save(any()))
 				.thenThrow(new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME));
+
+		assertThrows(UserAppException.class, () -> userService.joinUser(new UserJoinRequest("testUser", "testPwd")));
 	}
 }

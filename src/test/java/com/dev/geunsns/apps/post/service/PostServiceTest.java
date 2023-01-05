@@ -6,6 +6,7 @@ import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
+import com.dev.geunsns.apps.post.repository.PostLikeRepository;
 import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppException;
@@ -25,17 +26,19 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class PostServiceTest {
 
     private UserRepository userRepository = Mockito.mock(UserRepository.class);
     private PostRepository postRepository = Mockito.mock(PostRepository.class);
+    private PostLikeRepository postLikeRepository = Mockito.mock(PostLikeRepository.class);
 
     private PostService postService;
 
     @BeforeEach
     void setUp() {
-        postService = new PostService(postRepository, userRepository);
+        postService = new PostService(postRepository, userRepository, postLikeRepository);
     }
 
     @Test
@@ -53,10 +56,10 @@ class PostServiceTest {
                 .body(postEntity.getBody())
                 .build();
 
-        Mockito.when(userRepository.findByUserName(testEntity.getUserName()))
+        when(userRepository.findByUserName(testEntity.getUserName()))
                 .thenReturn(Optional.of(user));
 
-        Mockito.when(postRepository.save(any()))
+        when(postRepository.save(any()))
                 .thenReturn(postEntity);
 
         assertDoesNotThrow(() -> postService.addPost(postAddRequest, user.getUserName()));
@@ -77,10 +80,10 @@ class PostServiceTest {
                 .body(postEntity.getBody())
                 .build();
 
-        Mockito.when(userRepository.findByUserName(testEntity.getUserName()))
+        when(userRepository.findByUserName(testEntity.getUserName()))
                 .thenReturn(Optional.empty());
 
-        Mockito.when(postRepository.save(any()))
+        when(postRepository.save(any()))
                 .thenReturn(postEntity);
 
         Assertions.assertThrows(UserAppException.class, () -> postService.addPost(postAddRequest, user.getUserName()));
@@ -96,7 +99,7 @@ class PostServiceTest {
 
         PostEntity postEntity = PostEntityFixture.get(testEntity.getPostId(), testEntity.getTitle(), testEntity.getBody(), user);
 
-        Mockito.when(postRepository.findById(testEntity.getPostId()))
+        when(postRepository.findById(testEntity.getPostId()))
                 .thenReturn(Optional.of(postEntity));
 
         PostDto postDto = postService.getPost(testEntity.getPostId());
@@ -115,7 +118,7 @@ class PostServiceTest {
 
         UserEntity user = UserEntityFixture.getUser(testEntity.getUserName(), testEntity.getPassword());
 
-        Mockito.when(postRepository.findById(testEntity.getPostId()))
+        when(postRepository.findById(testEntity.getPostId()))
                 .thenReturn(Optional.empty());
 
         assertThrows(PostAppException.class, () -> postService.getPost(testEntity.getPostId()));
@@ -136,7 +139,7 @@ class PostServiceTest {
                 .body(postEntity.getBody())
                 .build();
 
-        Mockito.when(userRepository.findByUserName(any()))
+        when(userRepository.findByUserName(any()))
                 .thenThrow(new PostAppException(PostAppErrorCode.POST_NOT_FOUND));
 
         assertThrows(PostAppException.class, () -> {
@@ -159,11 +162,11 @@ class PostServiceTest {
                 .body(postEntity.getBody())
                 .build();
 
-        Mockito.when(postRepository.findById(testEntity.getPostId()))
+        when(postRepository.findById(testEntity.getPostId()))
                 .thenReturn(Optional.empty());
 
         assertThrows(PostAppException.class, () -> {
-            postService.updatePost(user.getUserName(),postEntity.getId(), postUpdateRequest, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+            postService.updatePost(user.getUserName(), postEntity.getId(), postUpdateRequest, List.of(new SimpleGrantedAuthority("ROLE_USER")));
         });
     }
 
@@ -182,16 +185,34 @@ class PostServiceTest {
                 .body(postEntity.getBody())
                 .build();
 
-        Mockito.when(postRepository.findById(testEntity.getPostId()))
+        when(postRepository.findById(testEntity.getPostId()))
                 .thenReturn(Optional.empty());
 
         assertThrows(PostAppException.class, () -> {
-            postService.updatePost(user.getUserName(),postEntity.getId(), postUpdateRequest, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+            postService.updatePost(user.getUserName(), postEntity.getId(), postUpdateRequest, List.of(new SimpleGrantedAuthority("ROLE_USER")));
         });
     }
 
     @Test
-    @DisplayName("포스트 삭제 성공")
+    @DisplayName("포스트 삭제 성공 - Soft Delete")
     void deletePost_Success() {
+
+        TestUserFixture.TestEntity testEntity = TestUserFixture.get();
+
+        UserEntity user = UserEntityFixture.getUser(testEntity.getUserName(), testEntity.getPassword());
+
+        PostEntity postEntity = PostEntityFixture.get(testEntity.getPostId(), testEntity.getTitle(), testEntity.getBody(), user);
+
+        when(userRepository.findByUserName(testEntity.getUserName()))
+                .thenReturn(Optional.of(user));
+
+        when(postRepository.findById(testEntity.getPostId()))
+                .thenReturn(Optional.of(postEntity));
+
+        PostDto result = postService.deletePost(testEntity.getPostId(), testEntity.getUserName(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+
+        Optional<PostEntity> deletedPostId = postRepository.findById(result.getId());
+
+        assertTrue(deletedPostId.isPresent());
     }
 }

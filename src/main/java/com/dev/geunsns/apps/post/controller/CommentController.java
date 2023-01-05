@@ -2,11 +2,9 @@ package com.dev.geunsns.apps.post.controller;
 
 import com.dev.geunsns.apps.post.data.dto.comment.*;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentDeleteResponse;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentListResponse;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentResponse;
+import com.dev.geunsns.apps.post.data.dto.comment.response.*;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentUpdateResponse;
+import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.service.CommentService;
 import com.dev.geunsns.global.data.response.Response;
 import io.swagger.annotations.ApiOperation;
@@ -33,15 +31,28 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @ApiOperation(value = "Comment 조회 기능", notes = "조회할 Comment의 Id를 입력해주세요.")
+    @GetMapping("/comments/{id}")
+    public Response getComment(@PathVariable Long id, Authentication authentication) {
 
-    @ApiOperation(value = "Comment List 조회 기능", notes = "Comment를 조회할 Post의 Id를 입력해주세요.")
+        CommentDto comment = commentService.getComment(id);
+
+        CommentGetResponse commentGetResponse = CommentGetResponse.toResponse(comment);
+
+        return Response.success(commentGetResponse);
+    }
+
+
+    @ApiOperation(value = "Comment List 조회 기능", notes = "Comment의 List(size = 10)를 조회합니다.")
     @GetMapping("/{postId}/comments")
     public Response<Page<CommentDto>> getCommentList(
             @PageableDefault(size = 10) @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Long postId) {
 
         Page<CommentDto> commentDtos = commentService.getComments(postId, pageable);
 
-        return Response.success(new CommentListResponse(commentDtos.getContent(), commentDtos.getPageable()));
+        CommentListResponse commentListResponse = new CommentListResponse(commentDtos.getContent(), pageable);
+
+        return Response.success(commentListResponse);
     }
 
     @ApiOperation(value = "Comment 작성 기능", notes = "추가할 Post의 postId와 Comment의 내용을 입력해주세요")
