@@ -20,7 +20,15 @@ public class Response<T> {
 		return new Response("SUCCESS", successResponse);
 	}
 
+	public static <T> Response success(String message, T successResponse){
+		return new Response(message, successResponse);
+	}
+
 	public static <T> Response error(T errorResponse) {
 		return new Response("ERROR", errorResponse);
+	}
+
+	public static <T> Response error(String message, T errorResponse) {
+		return new Response(message, errorResponse);
 	}
 }
