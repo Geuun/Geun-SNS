@@ -1,8 +1,7 @@
 package com.dev.geunsns.apps.post.service;
 
-import com.dev.geunsns.apps.model.UserRole;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentResponse;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
@@ -14,7 +13,6 @@ import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 

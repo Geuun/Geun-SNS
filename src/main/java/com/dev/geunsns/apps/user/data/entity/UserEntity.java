@@ -1,14 +1,12 @@
 package com.dev.geunsns.apps.user.data.entity;
 
-import com.dev.geunsns.apps.model.UserRole;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
-import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
 
 import javax.persistence.*;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

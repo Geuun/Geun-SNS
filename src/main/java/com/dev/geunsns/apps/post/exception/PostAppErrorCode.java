@@ -1,14 +1,10 @@
 package com.dev.geunsns.apps.post.exception;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public enum PostAppErrorCode {
 
 	INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "User has invalid permission. Please try again."),
@@ -20,4 +16,9 @@ public enum PostAppErrorCode {
 
 	private HttpStatus httpStatus;
 	private String errorMessage;
+
+	PostAppErrorCode(HttpStatus httpStatus, String errorMessage) {
+		this.httpStatus = httpStatus;
+		this.errorMessage = errorMessage;
+	}
 }
