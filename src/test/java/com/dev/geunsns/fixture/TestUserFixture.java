@@ -1,7 +1,7 @@
 package com.dev.geunsns.fixture;
 
 
-import com.dev.geunsns.apps.model.UserRole;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 
