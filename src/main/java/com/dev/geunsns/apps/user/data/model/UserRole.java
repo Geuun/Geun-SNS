@@ -1,8 +1,12 @@
-package com.dev.geunsns.apps.model;
+package com.dev.geunsns.apps.user.data.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum UserRole {
 	/**
 	 * Spring Security Role Naming Rule : ROLE_AUTHORITY
@@ -15,12 +19,4 @@ public enum UserRole {
 	;
 
 	private final String role;
-
-	UserRole(String role) {
-		this.role = role;
-	}
-
-	public String getRole() {
-		return role;
-	}
 }

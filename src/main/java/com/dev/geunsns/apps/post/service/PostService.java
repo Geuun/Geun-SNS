@@ -1,6 +1,6 @@
 package com.dev.geunsns.apps.post.service;
 
-import com.dev.geunsns.apps.model.UserRole;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
 import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
 import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
@@ -21,7 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 

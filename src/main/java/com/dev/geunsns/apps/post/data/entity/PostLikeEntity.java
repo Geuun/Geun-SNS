@@ -14,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "post_like")
 public class PostLikeEntity extends BaseTimeEntity {
 
     @Id

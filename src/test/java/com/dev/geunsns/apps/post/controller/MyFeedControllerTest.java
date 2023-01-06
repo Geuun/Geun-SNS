@@ -51,7 +51,7 @@ class MyFeedControllerTest {
 
     @Test
     @WithAnonymousUser
-    @DisplayName("내 피드 조회 실패")
+    @DisplayName("내 피드 조회 실패 - 인증 실패")
     void getMyFeed_Fail() throws Exception {
 
         when(myFeedService.getMyFeed(any(), any()))

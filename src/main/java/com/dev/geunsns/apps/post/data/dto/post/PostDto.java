@@ -67,20 +67,6 @@ public class PostDto {
 
     // Entity List -> Dto List (양방향 무한참조 방지)
     public static Page<PostDto> toDtoList(Page<PostEntity> postEntities) {
-
-        Page<PostDto> postDtoList = postEntities.map(postEntity -> PostDto.builder()
-                .id(postEntity.getId())
-                .title(postEntity.getTitle())
-                .body(postEntity.getBody())
-                .userName(postEntity.getUser().getUserName())
-                .createdAt(postEntity.getCreatedAt())
-                .createdBy(postEntity.getCreatedBy())
-                .modifiedAt(postEntity.getLastModifiedAt())
-                .modifiedBy(postEntity.getLastModifiedBy())
-                .isDeleted(postEntity.isDeleted())
-                .postLikeCount(postEntity.getPostLikeCount())
-                .build());
-
-        return postDtoList;
+        return postEntities.map(PostDto::toDto);
     }
 }

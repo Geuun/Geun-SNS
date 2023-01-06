@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,23 +53,26 @@ class CommentControllerTest {
         when(commentService.getComment(any()))
                 .thenReturn(CommentDto.builder()
                         .id(1L)
-                        .postId(1L)
                         .comment("Test Comment")
+                        .userName("Test User")
+                        .postId(1L)
                         .build());
 
-        mockMvc.perform(post("/api/v1/posts/comments/1")
+        mockMvc.perform(get("/api/v1/posts/comments/1")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(CommentDto.builder()
                         .id(1L)
-                        .postId(1L)
                         .comment("Test Comment")
+                        .userName("Test User")
+                        .postId(1L)
                         .build())))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.id").exists())
-                .andExpect(jsonPath("$.result.postId").exists())
-                .andExpect(jsonPath("$.result.comment").exists());
+                .andExpect(jsonPath("$.result.commentId").exists())
+                .andExpect(jsonPath("$.result.comment").exists())
+                .andExpect(jsonPath("$.result.userName").exists())
+                .andExpect(jsonPath("$.result.postId").exists());
     }
 
     @Test

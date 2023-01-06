@@ -14,16 +14,18 @@ public class CommentGetResponse {
     private Long commentId;
     private String comment;
     private String userName;
+    private Long postId;
     private LocalDateTime createdAt;
     private String createdBy;
     private LocalDateTime lastModifiedAt;
     private String lastModifiedBy;
 
     @Builder
-    public CommentGetResponse(Long commentId, String comment, String userName, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
+    public CommentGetResponse(Long commentId, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
         this.commentId = commentId;
         this.comment = comment;
         this.userName = userName;
+        this.postId = postId;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.lastModifiedAt = lastModifiedAt;
@@ -35,6 +37,7 @@ public class CommentGetResponse {
                 commentDto.getCommentId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
+                commentDto.getPostId(),
                 commentDto.getCreatedAt(),
                 commentDto.getCreatedBy(),
                 commentDto.getLastModifiedAt(),

@@ -1,6 +1,6 @@
 package com.dev.geunsns.apps.user.data.dto.request;
 
-import com.dev.geunsns.apps.model.UserRole;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
