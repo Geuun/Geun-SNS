@@ -53,7 +53,7 @@ public class CommentService {
                 .alarmType(AlarmType.NEW_LIKE_ON_POST)
                 .targetId(post.getId())
                 .fromUserId(user.getId())
-                .text(String.format("@%s님이 @%s님의 게시물에새 댓글을 남겼습니다.", user.getUserName(), post.getUser().getUserName()))
+                .text(String.format("@%s님이 @%s님의 게시물에 새 댓글을 남겼습니다.", user.getUserName(), post.getUser().getUserName()))
                 .user(post.getUser())
                 .build()
         );
