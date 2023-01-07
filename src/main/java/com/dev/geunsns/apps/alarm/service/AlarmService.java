@@ -8,11 +8,13 @@ import com.dev.geunsns.apps.alarm.repository.AlarmRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlarmService {
@@ -25,11 +27,12 @@ public class AlarmService {
         UserEntity user = userRepository.findByUserName(authentication.getName())
                 .orElseThrow(() -> new AlarmAppExection(AlarmErrorCode.USER_NOT_FOUND));
 
-        Long userId = user.getId();
+        log.info("[Service Layer] Request userName : {}, userId : {}", user.getUserName(), user.getId());
 
-        Page<AlarmEntity> alarmEntityPage = alarmRepository.findAllByUserId(userId, pageable);
-        Page<AlarmDto> alarmDtoPage = AlarmDto.toDtoList(alarmEntityPage);
+        Page<AlarmEntity> alarmEntityList = alarmRepository.findAllByUserId(user.getId(), pageable);
 
-        return alarmDtoPage;
+        Page<AlarmDto> alarmDtoList = AlarmDto.toListDto(alarmEntityList);
+
+        return alarmDtoList;
     }
 }

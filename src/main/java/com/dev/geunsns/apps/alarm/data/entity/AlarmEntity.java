@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SQLDelete(sql = "UPDATE alarm SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 @Table(name = "alarm")
 public class AlarmEntity extends BaseEntity {
 
@@ -24,12 +28,12 @@ public class AlarmEntity extends BaseEntity {
     // 알람 내용
     private String text;
 
-    // 알람 받을 대상
+    // target Post ID
     private Long targetId;
 
     // 알람 보내는 사람
     private Long fromUserId;
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     @Enumerated(EnumType.STRING)
     private AlarmType alarmType;
@@ -39,12 +43,12 @@ public class AlarmEntity extends BaseEntity {
     private UserEntity user;
 
     @Builder
-    public AlarmEntity(Long id, String text, Long targetId, Long fromUserId, Boolean isDeleted, AlarmType alarmType, UserEntity user) {
+    public AlarmEntity(Long id, String text, Long targetId, Long fromUserId, AlarmType alarmType, UserEntity user) {
         this.id = id;
         this.text = text;
         this.targetId = targetId;
         this.fromUserId = fromUserId;
-        this.isDeleted = isDeleted;
+        this.isDeleted = false;
         this.alarmType = alarmType;
         this.user = user;
     }

@@ -1,5 +1,8 @@
 package com.dev.geunsns.apps.post.service;
 
+import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
+import com.dev.geunsns.apps.alarm.data.model.AlarmType;
+import com.dev.geunsns.apps.alarm.repository.AlarmRepository;
 import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
@@ -30,20 +33,30 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final AlarmRepository alarmRepository;
 
     @Transactional
     public CommentDto addComment(Long postId, String userName, CommentAddRequest commentAddRequest) {
-        PostEntity postEntity = postRepository.findById(postId)
+        PostEntity post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId #%d was not found.", postId)));
 
-        UserEntity userEntity = userRepository.findByUserName(userName)
+        UserEntity user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
 
         CommentEntity savedComment = commentRepository.save(CommentEntity.builder()
-                        .post(postEntity)
-                        .user(userEntity)
+                        .post(post)
+                        .user(user)
                         .comment(commentAddRequest.getComment())
                 .build());
+
+        alarmRepository.save(AlarmEntity.builder()
+                .alarmType(AlarmType.NEW_LIKE_ON_POST)
+                .targetId(post.getId())
+                .fromUserId(user.getId())
+                .text(String.format("@%s님이 @%s님의 게시물에 새 댓글을 남겼습니다.", user.getUserName(), post.getUser().getUserName()))
+                .user(post.getUser())
+                .build()
+        );
 
         CommentDto commentDto = CommentDto.toDto(savedComment);
 

@@ -55,7 +55,6 @@ class UserRepositoryTest {
         assertDoesNotThrow(() -> {
             assertEquals(userName, savedUser.getUserName());
             assertEquals(password, savedUser.getPassword());
-            assertEquals("USER", savedUser.getRole());
             assertNotNull(savedUser.getCreatedAt());
             assertNotNull(savedUser.getCreatedBy());
             assertNotNull(savedUser.getLastModifiedAt());

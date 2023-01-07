@@ -111,7 +111,7 @@ public class PostService {
         return updatedPost;
     }
 
-//    @Transactional
+    @Transactional
     public PostDto deletePost(Long postId, String userName, Collection<? extends GrantedAuthority> authorities) {
         // Post check
         PostEntity savedPost = postRepository.findById(postId)

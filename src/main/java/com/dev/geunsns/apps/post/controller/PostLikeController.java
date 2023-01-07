@@ -1,7 +1,5 @@
 package com.dev.geunsns.apps.post.controller;
 
-import com.dev.geunsns.apps.post.data.dto.post.PostDto;
-import com.dev.geunsns.apps.post.data.dto.post.response.PostResponse;
 import com.dev.geunsns.apps.post.data.dto.postlike.response.PostLikeCountResponse;
 import com.dev.geunsns.apps.post.data.dto.postlike.response.PostLikeResponse;
 import com.dev.geunsns.apps.post.service.PostLikeService;
@@ -22,7 +20,7 @@ public class PostLikeController {
     @PostMapping("/{postId}/likes")
     public Response addLike(@PathVariable Long postId, Authentication authentication) {
 
-        boolean checklikePost = postLikeService.checkPostLike(postId, authentication.getName());
+        boolean checklikePost = postLikeService.addAndRemoveLike(postId, authentication.getName());
 
         if (!checklikePost) {
             return Response.success(new PostLikeResponse("SUCCESS - Removed Add Like", postId));

@@ -1,44 +1,28 @@
 package com.dev.geunsns.apps.alarm.data.dto.response;
 
-
 import com.dev.geunsns.apps.alarm.data.dto.AlarmDto;
-import com.dev.geunsns.apps.alarm.data.model.AlarmType;
+import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AlarmResponse {
 
-    private Long id;
-    private String text;
-    private Long targetId;
-    private Long fromUserId;
-    private AlarmType alarmType;
-    private LocalDateTime createdAt;
+    private String message;
+    private List<AlarmDto> content;
+    private Pageable pageable;
 
     @Builder
-    public AlarmResponse(Long id, String text, Long targetId, Long fromUserId, AlarmType alarmType, LocalDateTime createdAt) {
-        this.id = id;
-        this.text = text;
-        this.targetId = targetId;
-        this.fromUserId = fromUserId;
-        this.alarmType = alarmType;
-        this.createdAt = createdAt;
-    }
-
-    public static AlarmResponse toResponse(AlarmDto alarmDto) {
-        return AlarmResponse.builder()
-                .id(alarmDto.getId())
-                .text(alarmDto.getText())
-                .targetId(alarmDto.getTargetId())
-                .fromUserId(alarmDto.getFromUserId())
-                .alarmType(alarmDto.getAlarmType())
-                .createdAt(alarmDto.getCreatedAt())
-                .build();
+    public AlarmResponse(String message, List<AlarmDto> content, Pageable pageable) {
+        this.message = message;
+        this.content = content;
+        this.pageable = pageable;
     }
 }
