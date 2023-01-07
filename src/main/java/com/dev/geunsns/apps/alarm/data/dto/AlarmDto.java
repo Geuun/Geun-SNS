@@ -19,17 +19,17 @@ public class AlarmDto {
     private Long targetId;
     private Long fromUserId;
     private LocalDateTime createdAt;
-    private LocalDateTime deletedAt;
+    private Boolean isDeleted;
     private AlarmType alarmType;
 
     @Builder
-    public AlarmDto(Long id, String text, Long targetId, Long fromUserId, LocalDateTime createdAt, LocalDateTime deletedAt, AlarmType alarmType) {
+    public AlarmDto(Long id, String text, Long targetId, Long fromUserId, LocalDateTime createdAt, Boolean isDeleted, AlarmType alarmType) {
         this.id = id;
         this.text = text;
         this.targetId = targetId;
         this.fromUserId = fromUserId;
         this.createdAt = createdAt;
-        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
         this.alarmType = alarmType;
     }
 
@@ -41,7 +41,7 @@ public class AlarmDto {
                 .targetId(alarmEntity.getTargetId())
                 .fromUserId(alarmEntity.getFromUserId())
                 .createdAt(alarmEntity.getCreatedAt())
-                .deletedAt(alarmEntity.getDeletedAt())
+                .isDeleted(alarmEntity.getIsDeleted())
                 .alarmType(alarmEntity.getAlarmType())
                 .build();
     }

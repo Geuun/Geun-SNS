@@ -27,10 +27,9 @@ public class AlarmService {
 
         Long userId = user.getId();
 
-        Page<AlarmEntity> alarmList = alarmRepository.findAllByUserId(userId, pageable);
+        Page<AlarmEntity> alarmEntityPage = alarmRepository.findAllByUserId(userId, pageable);
+        Page<AlarmDto> alarmDtoPage = AlarmDto.toDtoList(alarmEntityPage);
 
-        Page<AlarmDto> alarmDtoList = AlarmDto.toDtoList(alarmList);
-
-        return alarmDtoList;
+        return alarmDtoPage;
     }
 }

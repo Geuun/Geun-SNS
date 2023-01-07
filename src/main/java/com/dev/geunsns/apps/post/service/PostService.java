@@ -67,9 +67,6 @@ public class PostService {
     @Transactional(readOnly = true)
     public PostDto getPost(Long postId) {
 
-//        UserEntity userEntity = userRepository.findByUserName(userName)
-//                .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
-
         PostEntity post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.POST_NOT_FOUND, String.format("PostId %s was not found.", postId)));
 
