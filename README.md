@@ -69,7 +69,48 @@
 | `comment` | DELETE | `/api/v1/posts/{postid}/comment/{id}` | 댓글삭제기능 |
 | `comment` | GET | `/api/v1/posts/{id}/comment` | 댓글조회기능 |
 
+---
 
+## What I paid special attention to
+
+### Lombok의 힘은 생각보다 강하다...!!!
+
+<details>
+<summary> @Setter 사용을 지양하는 코드를 작성합니다. </summary>
+<div markdown="1">
+
+코드 전반적으로 Entity에 Setter를 사용하지 않는 전략을 사용했습니다.
+Entity 객체의 데이터는 불변한 성질을 가져야하기 때문에 위와 같은 전략을 사용해서 코드를 작성했습니다. 
+
+</div>
+</details>
+
+<details>
+<summary> @NoArgsConstructor의 접근을 최소화하는 코드를 작성합니다. </summary>
+<div markdown="1">
+
+JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
+하지만 모든 접근 권한을 허용하게되면 객체의 안정성을 떨어뜨릴 수 있습니다.
+따라서 `@NoArgsConstructor(access = AccessLevel.PROTECTED)` 를 사용해 무분별한 기본생성자의 접근을 막아서
+최대한 Entity의 데이터를 보호하고자 하는 의도로 코드를 작성했습니다.
+
+</div>
+</details>
+
+
+<details>
+<summary> @Builder 패턴 사용 시 매개변수를 최소화 하는 코드를 작성합니다. </summary>
+<div markdown="1">
+
+@Builder 어노테이션을 사용하려면 @AllargsConstructor가 필요합니다.
+하지만 이는 모든 매개변수를 받는 생성자를 만들어주기 때문에 불필요한 매개변수를 받는 생성자를 만들어주는 단점이 있습니다.
+예를 들어서 User Entity의 경우 id값은 DB에서 자동으로 생성되기 때문에 생성자에서 id값을 받을 필요가 없습니다.
+따라서 @Builder를 사용할 때는 @AllArgsConstructor 대신 생성자의 상단에 @Builder를 사용해서 불필요한 매개변수를 받는 생성자를 만들지 않도록 코드를 작성했습니다.
+
+</div>
+</details>
+
+---
 
 ## Trouble Shooting
 
