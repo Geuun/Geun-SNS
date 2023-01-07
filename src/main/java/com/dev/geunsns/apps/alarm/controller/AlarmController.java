@@ -1,6 +1,7 @@
 package com.dev.geunsns.apps.alarm.controller;
 
 import com.dev.geunsns.apps.alarm.data.dto.AlarmDto;
+import com.dev.geunsns.apps.alarm.data.dto.response.AlarmResponse;
 import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
 import com.dev.geunsns.apps.alarm.service.AlarmService;
 import com.dev.geunsns.global.data.response.Response;
@@ -28,8 +29,9 @@ public class AlarmController {
     public Response getAlarmList(@PageableDefault(size = 20) @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, Authentication authentication) {
 
         log.info("Request userName : {}", authentication.getName());
-        Page<AlarmDto> alarmDtoList = alarmService.getAlarmList(pageable, authentication);
 
-        return Response.success(alarmDtoList);
+        Page<AlarmDto> getAlarmList = alarmService.getAlarmList(pageable, authentication);
+
+        return Response.success(new AlarmResponse("GET ALARM LIST SUCCESS", getAlarmList.getContent(), pageable));
     }
 }
