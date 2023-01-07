@@ -2,28 +2,27 @@ package com.dev.geunsns.fixture;
 
 
 import com.dev.geunsns.apps.user.data.model.UserRole;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 public class TestUserFixture {
 
     public static TestEntity get() {
-        TestEntity testEntity = new TestEntity();
-
-        testEntity.setUserId(1L);
-        testEntity.setUserName("test");
-        testEntity.setPassword("test");
-        testEntity.setUserRole(UserRole.ROLE_USER);
-
-        testEntity.setPostId(1L);
-        testEntity.setTitle("test");
-        testEntity.setBody("test");
-
-        return testEntity;
+        return TestEntity.builder()
+                .userId(1L)
+                .userName("test")
+                .password("test")
+                .userRole(UserRole.ROLE_USER)
+                .postId(1L)
+                .title("test")
+                .body("test")
+                .build();
     }
 
     @Getter
     @Setter
+    @Builder
     public static class TestEntity {
 
         private Long userId;

@@ -47,9 +47,6 @@ class AlarmControllerTest {
     @MockBean
     AlarmService alarmService;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @Test
     @WithMockUser
     @DisplayName("알람 목록 조회 성공 - Comment")
@@ -64,23 +61,27 @@ class AlarmControllerTest {
         AlarmEntity commentAlarm1 = AlarmEntityFixture.getCommentAlarm(user2.getId(), post1.getId()); // user2가 user1의 post1에 댓글을 달았을 때
         AlarmEntity commentAlarm2 = AlarmEntityFixture.getCommentAlarm(user1.getId(), post2.getId()); // user1이 user2의 post2에 댓글을 달았을 때
 
-        List<AlarmEntity> commentAlarmList = new ArrayList<>();
-        commentAlarmList.add(commentAlarm1);
-        commentAlarmList.add(commentAlarm2);
+        List<AlarmEntity> alarmEntities = new ArrayList<>();
+        alarmEntities.add(commentAlarm1);
+        alarmEntities.add(commentAlarm2);
 
-        Page<AlarmEntity> alarmList = new PageImpl<>(commentAlarmList);
-
-        Page<AlarmDto> alarmDtoList = AlarmDto.toDtoList(alarmList);
+        Page<AlarmEntity> alarmEntityPage = new PageImpl<>(alarmEntities);
+        Page<AlarmDto> alarmDtoPage = AlarmDto.toListDto(alarmEntityPage);
 
         when(alarmService.getAlarmList(any(), any()))
-                .thenReturn(alarmDtoList);
+                .thenReturn(alarmDtoPage);
 
         mockMvc.perform(get("/api/v1/alarms").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.content[0].alarmType").exists())
-                .andExpect(jsonPath("$.result.content[0].alarmType").value(AlarmType.NEW_COMMENT_ON_POST.name())
+                .andExpect(jsonPath("$.result.message").exists())
+                .andExpect(jsonPath("$.result.content[0].id").exists())
+                .andExpect(jsonPath("$.result.content[0].userId").exists())
+                .andExpect(jsonPath("$.result.content[0].text").exists())
+                .andExpect(jsonPath("$.result.content[0].targetId").exists())
+                .andExpect(jsonPath("$.result.content[0].fromUserId").exists())
+                .andExpect(jsonPath("$.result.content[0].alarmType").exists()
                 );
     }
 
@@ -106,7 +107,7 @@ class AlarmControllerTest {
 
         Page<AlarmEntity> alarmList = new PageImpl<>(commentAlarms);
 
-        Page<AlarmDto> alarmDtoList = AlarmDto.toDtoList(alarmList);
+        Page<AlarmDto> alarmDtoList = AlarmDto.toListDto(alarmList);
 
         when(alarmService.getAlarmList(any(), any()))
                 .thenReturn(alarmDtoList);
