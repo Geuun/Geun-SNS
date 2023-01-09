@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class CommentDeleteResponse {
 
     private String message;
-    private Long commentId;
+    private Long id;
 
-    public CommentDeleteResponse(String message, Long commentId) {
+    public CommentDeleteResponse(String message, Long id) {
         this.message = message;
-        this.commentId = commentId;
+        this.id = id;
     }
 
     public static CommentDeleteResponse toResponse(CommentDto commentDto) {
