@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.config.jpaauditing;
+package com.dev.geunsns.global.config.auditing;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;

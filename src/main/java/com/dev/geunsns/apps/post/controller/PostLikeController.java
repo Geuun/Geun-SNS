@@ -3,9 +3,11 @@ package com.dev.geunsns.apps.post.controller;
 import com.dev.geunsns.apps.post.data.dto.postlike.response.PostLikeCountResponse;
 import com.dev.geunsns.apps.post.data.dto.postlike.response.PostLikeResponse;
 import com.dev.geunsns.apps.post.service.PostLikeService;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +17,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/posts")
 public class PostLikeController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final PostLikeService postLikeService;
 
     @PostMapping("/{postId}/likes")
     public Response addLike(@PathVariable Long postId, Authentication authentication) {
+
+        logger.info("addLike");
 
         boolean checklikePost = postLikeService.addAndRemoveLike(postId, authentication.getName());
 

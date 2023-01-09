@@ -1,8 +1,6 @@
-package com.dev.geunsns.global.config.jpaauditing;
+package com.dev.geunsns.global.config.auditing;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.persistence.*;
 
 import lombok.Getter;

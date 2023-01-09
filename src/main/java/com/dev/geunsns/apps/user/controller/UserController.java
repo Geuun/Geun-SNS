@@ -6,7 +6,7 @@ import com.dev.geunsns.apps.user.data.dto.response.UserJoinResponse;
 import com.dev.geunsns.apps.user.data.dto.request.UserLoginRequest;
 import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
 import com.dev.geunsns.apps.user.service.UserService;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +35,12 @@ public class UserController {
 	public Response loginUser(@RequestBody UserLoginRequest userLoginRequest) {
 		log.info(String.format("Message: %s", "A login attempt has been detected."));
 		log.info(String.format("Route: %s", routePath + "login"));
-		String token = userService.userLogin(userLoginRequest);
 		log.info(String.format("UserName : %s getToken", userLoginRequest.getUserName()));
+
+		String token = userService.userLogin(userLoginRequest);
+
+		//TODO:: RefreshToken 추가 및 Redis에 저장
+
 		return Response.success(new UserLoginResponse(token));
 	}
 }

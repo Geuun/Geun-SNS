@@ -1,9 +1,8 @@
 package com.dev.geunsns.global.config.security.entrypoint;
 
-import com.dev.geunsns.global.data.response.ErrorResponse;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.ErrorResponse;
+import com.dev.geunsns.global.exception.response.Response;
 import com.dev.geunsns.global.exception.GlobalErrorCode;
-import com.dev.geunsns.global.exception.GlobalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

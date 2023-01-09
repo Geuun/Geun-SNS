@@ -2,7 +2,7 @@ package com.dev.geunsns.apps.alarm.data.entity;
 
 import com.dev.geunsns.apps.alarm.data.model.AlarmType;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
-import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
+import com.dev.geunsns.global.config.auditing.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +11,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

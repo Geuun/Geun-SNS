@@ -1,8 +1,8 @@
 package com.dev.geunsns.global.exception;
 
 import com.dev.geunsns.apps.user.exception.UserAppException;
-import com.dev.geunsns.global.data.response.ErrorResponse;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.ErrorResponse;
+import com.dev.geunsns.global.exception.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -3,7 +3,7 @@ package com.dev.geunsns.apps.user.data.entity;
 import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
-import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
+import com.dev.geunsns.global.config.auditing.BaseEntity;
 
 import javax.persistence.*;
 

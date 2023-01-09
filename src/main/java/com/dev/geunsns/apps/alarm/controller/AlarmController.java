@@ -2,9 +2,8 @@ package com.dev.geunsns.apps.alarm.controller;
 
 import com.dev.geunsns.apps.alarm.data.dto.AlarmDto;
 import com.dev.geunsns.apps.alarm.data.dto.response.AlarmResponse;
-import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
 import com.dev.geunsns.apps.alarm.service.AlarmService;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
