@@ -2,7 +2,7 @@ package com.dev.geunsns.fixture;
 
 import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
-import com.dev.geunsns.global.config.jpaauditing.BaseEntity;
+import com.dev.geunsns.global.config.auditing.BaseEntity;
 
 public class UserEntityFixture extends BaseEntity {
 

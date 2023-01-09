@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.service;
+package com.dev.geunsns.apps.root.service;
 
 
 import org.springframework.stereotype.Service;

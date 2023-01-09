@@ -1,15 +1,13 @@
 package com.dev.geunsns.apps.post.data.entity;
 
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
-import com.dev.geunsns.global.config.jpaauditing.BaseTimeEntity;
+import com.dev.geunsns.global.config.auditing.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

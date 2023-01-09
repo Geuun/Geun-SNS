@@ -2,8 +2,7 @@ package com.dev.geunsns.apps.post.controller;
 
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
 import com.dev.geunsns.apps.post.service.MyFeedService;
-import com.dev.geunsns.apps.post.service.PostService;
-import com.dev.geunsns.global.data.response.Response;
+import com.dev.geunsns.global.exception.response.Response;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

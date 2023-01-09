@@ -1,4 +1,4 @@
-package com.dev.geunsns.global.data.response;
+package com.dev.geunsns.global.exception.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
