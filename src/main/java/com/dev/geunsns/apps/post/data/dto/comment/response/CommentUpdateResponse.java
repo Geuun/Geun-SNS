@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentUpdateResponse {
-    private Long commentId;
+    private Long id;
     private String comment;
     private String userName;
     private Long postId;
@@ -21,8 +21,8 @@ public class CommentUpdateResponse {
     private String lastModifiedBy;
 
     @Builder
-    public CommentUpdateResponse(Long commentId, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
-        this.commentId = commentId;
+    public CommentUpdateResponse(Long id, String comment, String userName, Long postId, LocalDateTime createdAt, String createdBy, LocalDateTime lastModifiedAt, String lastModifiedBy) {
+        this.id = id;
         this.comment = comment;
         this.userName = userName;
         this.postId = postId;
@@ -45,3 +45,19 @@ public class CommentUpdateResponse {
         );
     }
 }
+
+
+/**
+ * Json Response
+ * {
+ * 	"resultCode": "SUCCESS",
+ * 	"result":{
+ * 		"id": 4,
+ * 		"comment": "modify comment",
+ * 		"userName": "test",
+ * 		"postId": 2,
+ * 		"createdAt": "2022-12-20T16:15:04.270741",
+ * 		"lastModifiedAt": "2022-12-23T16:15:04.270741"
+ *                }
+ * }
+ */
