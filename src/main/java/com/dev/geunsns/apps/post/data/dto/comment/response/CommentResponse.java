@@ -30,7 +30,7 @@ public class CommentResponse {
 
     public static CommentResponse toResponse(CommentDto commentDto) {
         return new CommentResponse(
-                commentDto.getCommentId(),
+                commentDto.getId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
                 commentDto.getPostId(),
