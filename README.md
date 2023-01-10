@@ -281,7 +281,7 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 <div markdown="1">
 
 > Raspberry Pi4 를 이용한 HomeServer를 구축하면서 개인 프로젝트를 Deploy하는 용도로 사용하고 있습니다.  
-> 하지만 Raspberry Pi는 Cpu Architecture가 Arm 기반이기 때문에 해당 서버에 다른 Architecture의 Docker Image를 Deploy 할 수 없었다.  
+> 하지만 Raspberry Pi는 Cpu Architecture가 Arm 기반이기 때문에 해당 서버에 다른 Architecture의 Docker Image를 Deploy 할 수 없었습니다.  
 > 그래서 Docker Manifest 기능을 이용해서 두가지 Architecture에 대해 병렬적으로 빌드한 뒤  
 > 하나의 이미지로 합쳐서 관리할 수 있는 방법을 찾아보았고  
 > CI PipeLine 상에서 두 가지 Architecture에 대해 병렬적으로 빌드한 뒤  
