@@ -59,4 +59,10 @@ public class UserEntity extends BaseEntity {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(role.toString()));
 	}
+
+	// User 권한 변경
+	public UserEntity changeRole(UserRole userRole) {
+		this.role = userRole;
+		return this;
+	}
 }

@@ -2,17 +2,17 @@ package com.dev.geunsns.apps.user.controller;
 
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.request.UserJoinRequest;
+import com.dev.geunsns.apps.user.data.dto.request.UserRoleChangeRequest;
 import com.dev.geunsns.apps.user.data.dto.response.UserJoinResponse;
 import com.dev.geunsns.apps.user.data.dto.request.UserLoginRequest;
 import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
+import com.dev.geunsns.apps.user.data.dto.response.UserRoleChangeResponse;
 import com.dev.geunsns.apps.user.service.UserService;
 import com.dev.geunsns.global.exception.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
