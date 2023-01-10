@@ -34,8 +34,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        //1. 헤더에서 토큰을 받아온다.
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        //
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             try {
                 filterChain.doFilter(request, response);
