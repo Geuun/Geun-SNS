@@ -66,7 +66,7 @@
 
 ## 🔄 Archetecture
 
-![Geun-sns](https://user-images.githubusercontent.com/89567475/211610161-fdc47514-f8c8-4a38-bc55-0ffa9a73c616.png)
+![Geun-sns](https://user-images.githubusercontent.com/89567475/211634688-26245e8a-2495-4263-a976-c45550114c92.png)
 
 ---
 
@@ -99,6 +99,66 @@
 |  `good`   | GET |      `/api/v1/posts/{id}/likes`       |       좋아요 조회       |
 | `myfeed`  | GET |          `/api/v1/posts/my`           |      마이피드 조회       |
 |  `alarm`  | GET |         `/api/v1/users/alarms`          |       알람 조회        |
+
+<details>
+<summary> Detail API Specification </summary>
+<div markdown="1">
+
+### UserJoinRequest 
+```json lines
+UserJoinRequest{
+  password: String,
+  userName: String
+}
+```
+
+### UserLoginRequest
+```json lines
+UserLoginRequest{
+password:string,
+userName:string
+}
+```
+
+### UserRoleChangeRequest
+```json lines
+UserRoleChangeRequest{
+roleToBeChanged:string
+}
+```
+
+### PostAddRequest
+```json lines
+PostAddRequest{
+body:string,
+title:string
+}
+```
+
+### PostUpdateRequest
+```json lines
+PostUpdateRequest{
+body:string,
+title:string
+}
+```
+
+### CommentAddRequest
+```json lines
+CommentAddRequest{
+comment:string
+}
+```
+
+### CommentUpdateRequest
+```json lines
+CommentUpdateRequest{
+comment:string
+}
+```
+
+</div>
+</details>
 
 
 ---
