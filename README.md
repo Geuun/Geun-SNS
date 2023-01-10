@@ -66,7 +66,7 @@
 
 ## 🔄 Archetecture
 
-![Geun-sns](https://user-images.githubusercontent.com/89567475/211610161-fdc47514-f8c8-4a38-bc55-0ffa9a73c616.png)
+![Geun-sns](https://user-images.githubusercontent.com/89567475/211634688-26245e8a-2495-4263-a976-c45550114c92.png)
 
 ---
 
