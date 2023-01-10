@@ -1,7 +1,10 @@
 package com.dev.geunsns.apps.post.data.dto.comment.response;
 
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 

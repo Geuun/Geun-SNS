@@ -3,7 +3,6 @@ package com.dev.geunsns.apps.post.service;
 import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
 import com.dev.geunsns.apps.alarm.data.model.AlarmType;
 import com.dev.geunsns.apps.alarm.repository.AlarmRepository;
-import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
@@ -14,17 +13,17 @@ import com.dev.geunsns.apps.post.exception.PostAppException;
 import com.dev.geunsns.apps.post.repository.CommentRepository;
 import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.repository.UserRepository;
-
-import java.util.Collection;
-import java.util.Objects;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collection;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -44,9 +43,9 @@ public class CommentService {
                 .orElseThrow(() -> new PostAppException(PostAppErrorCode.USERNAME_NOT_FOUND, String.format("UserName %s was not found.", userName)));
 
         CommentEntity savedComment = commentRepository.save(CommentEntity.builder()
-                        .post(post)
-                        .user(user)
-                        .comment(commentAddRequest.getComment())
+                .post(post)
+                .user(user)
+                .comment(commentAddRequest.getComment())
                 .build());
 
         alarmRepository.save(AlarmEntity.builder()

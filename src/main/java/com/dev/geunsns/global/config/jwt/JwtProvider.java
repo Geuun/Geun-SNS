@@ -1,13 +1,11 @@
 package com.dev.geunsns.global.config.jwt;
 
-import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,7 +39,7 @@ public class JwtProvider {
     private final Key key;
 
     // Secret Key 를 Base64 Decode
-    public JwtProvider(@Value("${jwt.token.secret}")String secretKey) {
+    public JwtProvider(@Value("${jwt.token.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -50,7 +48,7 @@ public class JwtProvider {
     public String generateToken(UserEntity userEntity) {
 
         long now = (new Date().getTime());
-        
+
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
@@ -77,7 +75,7 @@ public class JwtProvider {
 
         return refreshToken;
     }
-    
+
     // JWT Token을 복호화한 뒤 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
         // Token 복호화

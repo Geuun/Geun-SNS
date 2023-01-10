@@ -42,16 +42,16 @@ class UserControllerTest {
     void joinUser_success_test() throws Exception {
 
         UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-            .userName("testName")
-            .password("testPwd")
-            .build();
+                .userName("testName")
+                .password("testPwd")
+                .build();
 
         when(userService.joinUser(any())).thenReturn(mock(UserDto.class));
 
         mockMvc.perform(
-                post("/api/v1/users/join").with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsBytes(userJoinRequest)))
+                        post("/api/v1/users/join").with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsBytes(userJoinRequest)))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -61,18 +61,18 @@ class UserControllerTest {
     @WithMockUser
     void joinUser_fail_test() throws Exception {
         UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-            .userName("testName")
-            .password("testPwd")
-            .build();
+                .userName("testName")
+                .password("testPwd")
+                .build();
 
         when(userService.joinUser(any()))
-            .thenThrow(new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME));
+                .thenThrow(new UserAppException(UserAppErrorCode.DUPLICATED_USER_NAME));
 
         mockMvc.perform(post("/api/v1/users/join").with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userJoinRequest))
-            ).andDo(print())
-            .andExpect(status().is4xxClientError());
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userJoinRequest))
+                ).andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 
     @Test
@@ -86,19 +86,19 @@ class UserControllerTest {
         System.out.println("token : " + token);
 
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-            .userName(userName)
-            .password(password)
-            .build();
+                .userName(userName)
+                .password(password)
+                .build();
 
         when(userService.userLogin(userLoginRequest))
-            .thenReturn(token);
+                .thenReturn(token);
 
         mockMvc.perform(post("/api/v1/users/login")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userLoginRequest)))
-            .andDo(print())
-            .andExpect(status().isOk());
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest)))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -107,19 +107,19 @@ class UserControllerTest {
     void login_fail_id_not_found() throws Exception {
 
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-            .userName("wrongUserName")
-            .password("1234")
-            .build();
+                .userName("wrongUserName")
+                .password("1234")
+                .build();
 
         when(userService.userLogin(any()))
-            .thenThrow(new UserAppException(UserAppErrorCode.NOT_FOUND));
+                .thenThrow(new UserAppException(UserAppErrorCode.NOT_FOUND));
 
         mockMvc.perform(post("/api/v1/users/login")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userLoginRequest)))
-            .andDo(print())
-            .andExpect(status().isNotFound());
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -128,19 +128,19 @@ class UserControllerTest {
     void login_fail_wrong_password() throws Exception {
 
         UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-            .userName("wrongUserName")
-            .password("1234")
-            .build();
+                .userName("wrongUserName")
+                .password("1234")
+                .build();
 
         when(userService.userLogin(any()))
-            .thenThrow(new UserAppException(UserAppErrorCode.INVALID_PASSWORD));
+                .thenThrow(new UserAppException(UserAppErrorCode.INVALID_PASSWORD));
 
         mockMvc.perform(post("/api/v1/users/login")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(userLoginRequest)))
-            .andDo(print())
-            .andExpect(status().is4xxClientError());
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest)))
+                .andDo(print())
+                .andExpect(status().is4xxClientError());
     }
 
 

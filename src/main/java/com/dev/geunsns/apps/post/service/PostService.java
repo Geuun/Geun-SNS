@@ -1,6 +1,5 @@
 package com.dev.geunsns.apps.post.service;
 
-import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
 import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
 import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
@@ -10,6 +9,7 @@ import com.dev.geunsns.apps.post.exception.PostAppException;
 import com.dev.geunsns.apps.post.repository.PostLikeRepository;
 import com.dev.geunsns.apps.post.repository.PostRepository;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
 import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.repository.UserRepository;

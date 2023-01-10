@@ -1,23 +1,14 @@
 package com.dev.geunsns.apps.user.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
@@ -38,9 +29,9 @@ class UserRepositoryTest {
         String password = "testPwd";
 
         UserEntity testUser = UserEntity.builder()
-                                        .userName(userName)
-                                        .password(password)
-                                        .build();
+                .userName(userName)
+                .password(password)
+                .build();
 
         UserEntity savedUser = userRepository.save(testUser);
 

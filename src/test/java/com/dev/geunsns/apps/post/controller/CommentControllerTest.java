@@ -2,7 +2,6 @@ package com.dev.geunsns.apps.post.controller;
 
 import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
-import com.dev.geunsns.apps.post.data.dto.comment.response.CommentResponse;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
 import com.dev.geunsns.apps.post.data.entity.CommentEntity;
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
@@ -11,7 +10,6 @@ import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.fixture.PostEntityFixture;
 import com.dev.geunsns.fixture.TestUserFixture;
 import com.dev.geunsns.fixture.UserEntityFixture;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,9 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,14 +55,14 @@ class CommentControllerTest {
                         .build());
 
         mockMvc.perform(get("/api/v1/posts/comments/1")
-                .with(csrf())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsBytes(CommentDto.builder()
-                        .id(1L)
-                        .comment("Test Comment")
-                        .userName("Test User")
-                        .postId(1L)
-                        .build())))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(CommentDto.builder()
+                                .id(1L)
+                                .comment("Test Comment")
+                                .userName("Test User")
+                                .postId(1L)
+                                .build())))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result.commentId").exists())

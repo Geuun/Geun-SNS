@@ -1,12 +1,10 @@
 package com.dev.geunsns.apps.alarm.data.dto.response;
 
 import com.dev.geunsns.apps.alarm.data.dto.AlarmDto;
-import com.dev.geunsns.apps.alarm.data.entity.AlarmEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

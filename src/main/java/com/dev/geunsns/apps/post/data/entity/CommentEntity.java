@@ -2,7 +2,10 @@ package com.dev.geunsns.apps.post.data.entity;
 
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.global.config.auditing.BaseEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -39,7 +42,7 @@ public class CommentEntity extends BaseEntity {
     }
 
     // Update Comment
-    public void updateComment(CommentEntity update){
+    public void updateComment(CommentEntity update) {
         this.comment = update.comment;
     }
 }

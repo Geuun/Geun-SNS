@@ -1,13 +1,12 @@
 package com.dev.geunsns.global.exception;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GlobalException extends RuntimeException{
+public class GlobalException extends RuntimeException {
 
     private GlobalErrorCode ErrorCode;
     private String ErrorMessage;

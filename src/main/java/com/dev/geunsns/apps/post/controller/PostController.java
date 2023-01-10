@@ -2,12 +2,13 @@ package com.dev.geunsns.apps.post.controller;
 
 import com.dev.geunsns.apps.post.data.dto.post.PostDto;
 import com.dev.geunsns.apps.post.data.dto.post.request.PostAddRequest;
+import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.data.dto.post.response.PostGetDetailResponse;
 import com.dev.geunsns.apps.post.data.dto.post.response.PostListGetResponse;
 import com.dev.geunsns.apps.post.data.dto.post.response.PostResponse;
-import com.dev.geunsns.apps.post.data.dto.post.request.PostUpdateRequest;
 import com.dev.geunsns.apps.post.service.PostService;
 import com.dev.geunsns.global.exception.response.Response;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+@Api(tags = "Post API")
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -29,9 +32,10 @@ public class PostController {
 
     private final PostService postService;
 
-    @ApiOperation(value = "Post 작성 기능", notes = "Post 작성할 내용을 입력해주세요")
+    @ApiOperation(value = "Post 작성 기능", notes = "Post 작성할 내용을 입력해주세요.")
     @PostMapping// 포스트 작성
-    public Response addPost(@RequestBody PostAddRequest postAddRequest, Authentication authentication) {
+    public Response addPost(@RequestBody PostAddRequest postAddRequest,
+                            @ApiIgnore Authentication authentication) {
 
         log.info("Add Post Title : {}", postAddRequest.getTitle());
         String userName = authentication.getName();
@@ -44,7 +48,7 @@ public class PostController {
 
     @ApiOperation(value = "Post 조회 기능", notes = "조회할 Post의 Id를 입력해주세요.")
     @GetMapping("/{postId}") // Post view
-    public Response findById(@PathVariable Long postId, Authentication authentication) {
+    public Response findById(@PathVariable Long postId) {
 
         PostDto getPost = postService.getPost(postId);
 
@@ -64,7 +68,9 @@ public class PostController {
 
     @ApiOperation(value = "Post 수정 기능", notes = "Post 수정할 내용을 입력해주세요.")
     @PutMapping("/{postId}") // Post Update
-    public Response updatePost(@RequestBody PostUpdateRequest postUpdateRequest, @PathVariable Long postId, Authentication authentication) {
+    public Response updatePost(@RequestBody PostUpdateRequest postUpdateRequest,
+                               @PathVariable Long postId,
+                               @ApiIgnore Authentication authentication) {
 
         String userName = authentication.getName();
 
@@ -75,7 +81,8 @@ public class PostController {
 
     @ApiOperation(value = "Post 삭제 기능", notes = "삭제할 Post의 Id를 입력해주세요")
     @DeleteMapping("/{postId}") // Post Delete
-    public Response deletePost(@PathVariable Long postId, Authentication authentication) {
+    public Response deletePost(@PathVariable Long postId,
+                               @ApiIgnore Authentication authentication) {
 
         PostDto deletedPost = postService.deletePost(postId, authentication.getName(), authentication.getAuthorities());
 
