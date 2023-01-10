@@ -8,10 +8,12 @@ import com.dev.geunsns.apps.user.data.entity.UserEntity;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
 import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.repository.UserRepository;
+import com.dev.geunsns.global.config.jwt.JwtProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,12 +23,13 @@ class UserServiceTest {
 	private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 
 	private final BCryptPasswordEncoder encoder = Mockito.mock(BCryptPasswordEncoder.class);
-
+	private final RedisTemplate<String, String> redisTemplate = Mockito.mock(RedisTemplate.class);
+	private final JwtProvider jwtProvider = Mockito.mock(JwtProvider.class);
 	private UserService userService;
 
 	@BeforeEach
 	void setUp() { // 의존성 Unit 테스트 단위 주입
-		userService = new UserService(userRepository, encoder);
+		userService = new UserService(userRepository, encoder, redisTemplate, jwtProvider);
 	}
 
 	@Test

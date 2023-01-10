@@ -7,11 +7,13 @@ import com.dev.geunsns.global.config.auditing.BaseEntity;
 
 import javax.persistence.*;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
 
@@ -44,17 +46,17 @@ public class UserEntity extends BaseEntity {
 	private List<CommentEntity> comments = new ArrayList<>();
 
 	@Builder
-	public UserEntity(Long id, String userName, String password, UserRole role, LocalDateTime deletedAt) {
+	public UserEntity(Long id, String userName, String password, UserRole role, LocalDateTime deletedAt, List<PostEntity> post, List<CommentEntity> comments) {
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
 		this.role = role;
 		this.deletedAt = deletedAt;
+		this.post = post;
+		this.comments = comments;
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return List.of(new SimpleGrantedAuthority(role.toString()));
 	}
-
-
 }

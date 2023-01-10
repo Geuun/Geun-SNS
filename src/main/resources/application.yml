@@ -14,19 +14,27 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-  ## DB
+  ## DB (datasource)
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:8080
     username:
     password:
+    ### DBCP( Database Connection Pool )
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 30
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      pool-name: HikariCP
 
   ## JPA
   jpa:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
@@ -41,7 +49,11 @@ spring:
 
   ## JWT
   jwt:
-    token:
-      secret:
+    secret:
+
+  ## Redis
+  redis:
+    host:
+    port:
 
 #########################################################

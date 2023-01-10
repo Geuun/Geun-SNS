@@ -39,8 +39,16 @@ public class UserController {
 
 		String token = userService.userLogin(userLoginRequest);
 
-		//TODO:: RefreshToken 추가 및 Redis에 저장
+		UserLoginResponse userLoginResponse = UserLoginResponse.builder()
+				.jwt(token)
+				.build();
 
-		return Response.success(new UserLoginResponse(token));
+		return Response.success(userLoginResponse);
+
+//		UserLoginResponse userLoginResponse = userService.login(userLoginRequest);
+
+//		return Response.success(
+//				new UserLoginResponse(userLoginResponse.getGrantType(), userLoginResponse.getJwt(),
+//						userLoginResponse.getRefreshToken(), userLoginResponse.getRefreshTokenExpirationTime()));
 	}
 }
