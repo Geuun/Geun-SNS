@@ -12,7 +12,7 @@ public enum UserRole {
 	 * Spring Security Role Naming Rule : ROLE_AUTHORITY
 	 */
 
-	ROLE_SUPERADMIN("Super_Admin"),
+	ROLE_SUPER_ADMIN("Super_Admin"),
 	ROLE_ADMIN("Admin"),
 	ROLE_USER("User"),
 	ROLE_ANONYMOUS("Anonymous"),
