@@ -1,6 +1,5 @@
 package com.dev.geunsns.apps.post.controller;
 
-import com.dev.geunsns.apps.post.data.dto.postlike.request.PostLikeRequest;
 import com.dev.geunsns.apps.post.exception.PostAppErrorCode;
 import com.dev.geunsns.apps.post.exception.PostAppException;
 import com.dev.geunsns.apps.post.service.PostLikeService;
@@ -15,7 +14,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -77,7 +75,7 @@ class PostLikeControllerTest {
                 .thenThrow(new PostAppException(PostAppErrorCode.INVALID_PERMISSION, "Invalid Permission"));
 
         mockMvc.perform(post("/api/v1/posts/1/likes").with(csrf())
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
@@ -91,7 +89,7 @@ class PostLikeControllerTest {
                 .thenThrow(new PostAppException(PostAppErrorCode.POST_NOT_FOUND, "Post Not Found"));
 
         mockMvc.perform(post("/api/v1/posts/1/likes").with(csrf())
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is5xxServerError());
     }

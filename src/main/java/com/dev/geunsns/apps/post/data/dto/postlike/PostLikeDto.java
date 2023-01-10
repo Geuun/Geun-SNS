@@ -19,7 +19,6 @@ public class PostLikeDto {
     private PostEntity post;
 
 
-
     @Builder
     public PostLikeDto(Long id, UserEntity user, PostEntity post) {
         this.id = id;

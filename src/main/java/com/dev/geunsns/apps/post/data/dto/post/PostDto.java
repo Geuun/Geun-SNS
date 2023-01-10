@@ -1,15 +1,13 @@
 package com.dev.geunsns.apps.post.data.dto.post;
 
 import com.dev.geunsns.apps.post.data.entity.PostEntity;
-
-import java.time.LocalDateTime;
-
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,7 +44,6 @@ public class PostDto {
         this.isDeleted = isDeleted;
         this.postLikeCount = postLikeCount;
     }
-
 
 
     //Entity -> Dto (양방향 무한참조 방지)

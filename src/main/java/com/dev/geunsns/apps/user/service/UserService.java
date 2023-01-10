@@ -1,15 +1,15 @@
 package com.dev.geunsns.apps.user.service;
 
-import com.dev.geunsns.apps.user.data.dto.request.UserRoleChangeRequest;
-import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
-import com.dev.geunsns.apps.user.data.dto.response.UserRoleChangeResponse;
-import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.data.dto.UserDto;
 import com.dev.geunsns.apps.user.data.dto.request.UserJoinRequest;
 import com.dev.geunsns.apps.user.data.dto.request.UserLoginRequest;
+import com.dev.geunsns.apps.user.data.dto.request.UserRoleChangeRequest;
+import com.dev.geunsns.apps.user.data.dto.response.UserLoginResponse;
+import com.dev.geunsns.apps.user.data.dto.response.UserRoleChangeResponse;
 import com.dev.geunsns.apps.user.data.entity.UserEntity;
-import com.dev.geunsns.apps.user.exception.UserAppException;
+import com.dev.geunsns.apps.user.data.model.UserRole;
 import com.dev.geunsns.apps.user.exception.UserAppErrorCode;
+import com.dev.geunsns.apps.user.exception.UserAppException;
 import com.dev.geunsns.apps.user.repository.UserRepository;
 import com.dev.geunsns.global.config.jwt.JwtProvider;
 import com.dev.geunsns.global.config.jwt.utils.JwtUtils;
@@ -17,12 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -111,7 +108,7 @@ public class UserService {
         long expiredTime = jwtProvider.getExpiration(accessToken);
 
         // Redis에 Token 저장
-        redisTemplate.opsForValue().set("RT:" + userEntity.getUserName(),refreshToken, jwtProvider.getExpiration(accessToken), TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set("RT:" + userEntity.getUserName(), refreshToken, jwtProvider.getExpiration(accessToken), TimeUnit.MILLISECONDS);
 
         return UserLoginResponse.builder()
                 .grantType(BEARER_TYPE)

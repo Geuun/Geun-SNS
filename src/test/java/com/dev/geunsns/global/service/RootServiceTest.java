@@ -1,10 +1,10 @@
 package com.dev.geunsns.global.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.dev.geunsns.apps.root.service.RootService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RootServiceTest {
 

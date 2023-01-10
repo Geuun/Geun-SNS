@@ -1,11 +1,14 @@
 SELECT @@profiling;
 
-SET profiling = 1;
+SET
+profiling = 1;
 
 SELECT @@profiling;
 
-SHOW profiles;
+SHOW
+profiles;
 
-SET profiling = 0;
+SET
+profiling = 0;
 
 SELECT @@profiling;

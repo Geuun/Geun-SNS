@@ -1,11 +1,14 @@
 package com.dev.geunsns.apps.post.controller;
 
-import com.dev.geunsns.apps.post.data.dto.comment.*;
+import com.dev.geunsns.apps.post.data.dto.comment.CommentDto;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentAddRequest;
-import com.dev.geunsns.apps.post.data.dto.comment.response.*;
 import com.dev.geunsns.apps.post.data.dto.comment.request.CommentUpdateRequest;
+import com.dev.geunsns.apps.post.data.dto.comment.response.*;
 import com.dev.geunsns.apps.post.service.CommentService;
 import com.dev.geunsns.global.exception.response.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +19,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+@Api(tags = "Comment API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -25,14 +30,13 @@ public class CommentController {
     /**
      * Entity -> Dto(toDto) -> Response(toResponse)
      */
-
     private final String routePath = "/api/v1/posts/";
 
     private final CommentService commentService;
 
     @ApiOperation(value = "Comment 조회 기능", notes = "조회할 Comment의 Id를 입력해주세요.")
     @GetMapping("/comments/{id}")
-    public Response getComment(@PathVariable Long id, Authentication authentication) {
+    public Response getComment(@PathVariable Long id) {
 
         CommentDto comment = commentService.getComment(id);
 
@@ -43,9 +47,16 @@ public class CommentController {
 
 
     @ApiOperation(value = "Comment List 조회 기능", notes = "Comment의 List(size = 10)를 조회합니다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "페이지 번호", defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "페이지 당 댓글 수", defaultValue = "10")
+    })
     @GetMapping("/{postId}/comments")
     public Response<Page<CommentDto>> getCommentList(
-            @PageableDefault(size = 10) @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, @PathVariable Long postId) {
+            @PageableDefault(size = 10) @SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PathVariable Long postId) {
 
         Page<CommentDto> commentDtos = commentService.getComments(postId, pageable);
 
@@ -56,7 +67,9 @@ public class CommentController {
 
     @ApiOperation(value = "Comment 작성 기능", notes = "추가할 Post의 postId와 Comment의 내용을 입력해주세요")
     @PostMapping("/{postId}/comments") // comment add
-    public Response addComment(@RequestBody CommentAddRequest commentAddRequest, @PathVariable Long postId, Authentication authentication) {
+    public Response addComment(@RequestBody CommentAddRequest commentAddRequest,
+                               @PathVariable Long postId,
+                               @ApiIgnore Authentication authentication) {
 
         String userName = authentication.getName();
 
@@ -69,7 +82,9 @@ public class CommentController {
 
     @ApiOperation(value = "Comment 수정 기능", notes = "수정할 Comment의 내용을 입력해주세요")
     @PutMapping("/{postId}/comments/{commentId}") // comment update
-    public Response modifyComment(@RequestBody CommentUpdateRequest commentUpdateRequest, @PathVariable Long commentId, Authentication authentication) {
+    public Response modifyComment(@RequestBody CommentUpdateRequest commentUpdateRequest,
+                                  @PathVariable Long commentId,
+                                  @ApiIgnore Authentication authentication) {
         String userName = authentication.getName();
         CommentDto commentDto = commentService.updateComment(userName, commentUpdateRequest, commentId);
 
@@ -80,7 +95,8 @@ public class CommentController {
 
     @ApiOperation(value = "Comment 삭제 기능", notes = "삭제할 Comment의 Id를 입력해주세요")
     @DeleteMapping("/{postId}/comments/{commentId}") // commentdelete
-    public Response deleteComment(@PathVariable Long commentId, Authentication authentication) {
+    public Response deleteComment(@PathVariable Long commentId,
+                                  @ApiIgnore Authentication authentication) {
 
         CommentDto deletedComment = commentService.deleteComment(commentId, authentication.getName(), authentication.getAuthorities());
 
