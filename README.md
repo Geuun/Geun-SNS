@@ -100,6 +100,66 @@
 | `myfeed`  | GET |          `/api/v1/posts/my`           |      마이피드 조회       |
 |  `alarm`  | GET |         `/api/v1/users/alarms`          |       알람 조회        |
 
+<details>
+<summary> Detail API Specification </summary>
+<div markdown="1">
+
+### UserJoinRequest 
+```json lines
+UserJoinRequest{
+  password: String,
+  userName: String
+}
+```
+
+### UserLoginRequest
+```json lines
+UserLoginRequest{
+password:string,
+userName:string
+}
+```
+
+### UserRoleChangeRequest
+```json lines
+UserRoleChangeRequest{
+roleToBeChanged:string
+}
+```
+
+### PostAddRequest
+```json lines
+PostAddRequest{
+body:string,
+title:string
+}
+```
+
+### PostUpdateRequest
+```json lines
+PostUpdateRequest{
+body:string,
+title:string
+}
+```
+
+### CommentAddRequest
+```json lines
+CommentAddRequest{
+comment:string
+}
+```
+
+### CommentUpdateRequest
+```json lines
+CommentUpdateRequest{
+comment:string
+}
+```
+
+</div>
+</details>
+
 
 ---
 
