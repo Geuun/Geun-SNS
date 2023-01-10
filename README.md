@@ -1,10 +1,12 @@
 # GEUN - SNS
 
-## Summery
+![guen SNS](https://user-images.githubusercontent.com/89567475/211623115-bbe83231-7d49-443a-8866-43ec57000a3f.png)
 
-> 나만의 작고 소중한 🥹 SNS 만들기...
+## 📝 Summery
 
-### Tech Stack
+> 나만의 작고 소중한 🥹 SNS 만들기... 프로젝트...
+
+### ⚙️ Tech Stack
 
 <div align="center">
  <img src="https://img.shields.io/badge/openJDK-FF9E0F.svg?logo=CoffeeScript&logoColor=white"/>
@@ -18,13 +20,13 @@
  <img src="https://img.shields.io/badge/Amazon_EC2-FF9900.svg?logo=Amazon-EC2&logoColor=white"/>
 </div>
 
-### URLs
+### ▶️ URLs
 
 - `Raspberry Home Server` (Arm64) : http://geun.me:9999/swagger-ui.html#/
 
 - `AWS Server` (Amd64) : http://ec2-15-164-170-144.ap-northeast-2.compute.amazonaws.com:9999/swagger-ui.html#/
 
-###  Functional Description
+### ☑️ Functional Description
 
 - 회원가입, 로그인, 회원 권한 수정 기능
 - <s>Redis를 이용한 Token 관리 및 로그아웃 기능</s> (ing...)
@@ -38,7 +40,7 @@
 
 ---
 
-## Development environment
+## 💻 Development environment
 
 - JVM 11 ver
 - Spring Boot 2.7.5 ver
@@ -53,28 +55,28 @@
 
 ---
 
-## Server
+## 🖥️ Server
 
-> 다양한 배포 경험을 위해서 arm64/amd64 환경에서 동시에 배포되었습니다.
+> 다양한 배포 경험을 위해서 `arm64`/`amd64` 환경에서 <u>`동시`</u> 에 배포되고 있습니다.
 
 - arm64 : RaspberryPi 4B
 - amd64 : AWS EC2 t3.small
 
 ---
 
-## Archetecture
+## 🔄 Archetecture
 
 ![Geun-sns](https://user-images.githubusercontent.com/89567475/211610161-fdc47514-f8c8-4a38-bc55-0ffa9a73c616.png)
 
 ---
 
-## ERD
+## 📄 ERD
 
 ![ERD](https://user-images.githubusercontent.com/89567475/211506328-f92534d6-c4ff-42a7-a12f-4a5017b23a0c.png)
 
 ---
 
-## EndPoints
+## 🧾 EndPoints
 
 |           | REST |                 Route                 |        API         |
 |:---------:|:------------------:|:-------------------------------------:|:------------------:|
@@ -101,7 +103,7 @@
 
 ---
 
-## What I paid special attention to
+## 🧐 What I paid special attention to
 
 ### Lombok의 힘은 생각보다 강하다...!!!
 
@@ -142,7 +144,7 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 
 ---
 
-## Trouble Shooting
+## 🛠️ Trouble Shooting
 
 <details>
 <summary>Error creating bean with name 'postController'</summary>
@@ -195,21 +197,21 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 
 ---
 
-## Project Retrospective
+## 🤔✏️ Project Retrospective
 
 <details>
 <summary> 1. Logout 기능 </summary>
 <div markdown="1">
 
-> 마지막에 Logout 의 기능을 구현하려 시도했으나 완벽하게 구현하지 못했다.  
-> Redis의 기능은 도입했지만 아직 Spring Security와 Token 인증 방식의 정확한 이해가 부족한 것 같다.
+> 마지막에 Logout 의 기능을 구현하려 시도했으나 완벽하게 구현하지 못했습니다.  
+> Redis의 기능은 도입했지만 아직 Spring Security와 Token 인증 방식의 정확한 이해가 부족한 것 같습니다.
 
 > Token인증 방식은 서버에서 발급한 이후에는 서버에서는 특별하게 인증 절차를 거치지 않기 때문에  
 > Acceess Token / Refresh Token 두 가지 Token을 발급하고  
 > Access Token은 만료 시간을 짧게 설정하여 Refresh Token을 이용해 재발급을 받는 방식을 많이 사용하는 것 같다.
 > 나도 마찬가지로 해당 방식으로 구현하려했으나, 마지막에 적용 후 Spring Security 단에서 Filter를 적용하는 과정에서  
-> 유저의 토큰이 발행된 후 모든 로직이 500 Error가 나왔다.  
-> 이 부분을 앞으로 리펙토링을 진행해야겠다.
+> 유저의 토큰이 발행된 후 모든 로직이 500 Error가 나왔습니다.  
+> 이 부분을 앞으로 리펙토링을 진행해야겠습니다.
 
 </div>
 </details>
@@ -218,16 +220,16 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 <summary> 2. CI/CD 도입 </summary>
 <div markdown="1">
 
-> Raspberry Pi4 를 이용한 HomeServer를 구축하면서 개인 프로젝트를 Deploy하는 용도로 사용하고 있다.  
+> Raspberry Pi4 를 이용한 HomeServer를 구축하면서 개인 프로젝트를 Deploy하는 용도로 사용하고 있습니다.  
 > 하지만 Raspberry Pi는 Cpu Architecture가 Arm 기반이기 때문에 해당 서버에 다른 Architecture의 Docker Image를 Deploy 할 수 없었다.  
 > 그래서 Docker Manifest 기능을 이용해서 두가지 Architecture에 대해 병렬적으로 빌드한 뒤  
 > 하나의 이미지로 합쳐서 관리할 수 있는 방법을 찾아보았고  
 > CI PipeLine 상에서 두 가지 Architecture에 대해 병렬적으로 빌드한 뒤  
-> Docker Manifest 기능을 이용해서 두가지 이미지를 하나로 합쳐주는 작업을 진행했다.  
-> 해당 Trouble Shooting 과정을 거치면서 기존에 20분 걸리던 빌드 시간은 약 3분으로 단축되었다.  
-> 이 과정을 통해 Docker Manifest 기능에 대해 알게되었고, Docker로 배포할 때도 여러 Cpu Architecture에 대해 고려해줘야 한다는 점을 알게되었다.   
-> 하지만 해당 Trouble Shooting을 진행하는데 너무 많은 시간을 들인 것 같아서 아쉽다.  
-> 앞으로 진행할 프로젝트에서는 하나에 너무 많은 시간을 투자하지 않고 적절한 시간 분배가 필요할 것 같다.
+> Docker Manifest 기능을 이용해서 두가지 이미지를 하나로 합쳐주는 작업을 진행했습니다.  
+> 해당 Trouble Shooting 과정을 거치면서 기존에 20분 걸리던 빌드 시간은 약 3분으로 단축되었습니다.  
+> 이 과정을 통해 Docker Manifest 기능에 대해 알게되었고, Docker로 배포할 때도 여러 Cpu Architecture에 대해 고려해줘야 한다는 점을 알게되었습니다.   
+> 하지만 해당 Trouble Shooting을 진행하는데 너무 많은 시간을 들인 것 같아서 아쉽습니다..  
+> 앞으로 진행할 프로젝트에서는 하나에 너무 많은 시간을 투자하지 않고 적절한 시간 분배가 필요할 것 같습니다.
 
 </div>
 </details>
@@ -237,9 +239,9 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 <div markdown="1">
 
 > FrontEnd 를 작게나마 구현해보면 더 좋은 BackEnd 코드를 작성할 수 있게 되지않을까 하는 생각과   
-> 더해서 BackEnd 만 덜렁 있으니 뭔가 반쪽 짜리 웹 서비스가 되는 것 같아서 React를 이용해서 Frontend를 구현할 계획이었다.  
-> 하지만 앞서 진행한 CI/CD를 진행하면서 시간이 부족해서 이번 프로젝트 기간 내에 React를 사용해보지 못한 점이 조금 아쉽다.
-> 개인적으로 시간을 조금 더 할애 해서 해당 부분은 구현을 해봐야겠다.
+> 더해서 BackEnd 만 덜렁 있으니 뭔가 반쪽 짜리 웹 서비스가 되는 것 같아서 React를 이용해서 Frontend를 구현할 계획이었습니다.  
+> 하지만 앞서 진행한 CI/CD를 진행하면서 시간이 부족해서 이번 프로젝트 기간 내에 React를 사용해보지 못한 점이 조금 아쉽습니다.
+> 개인적으로 시간을 조금 더 할애 해서 해당 부분은 구현을 해봐야겠습니다.
 
 </div>
 </details>
@@ -249,9 +251,9 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 <summary> 4. 중복되는 로직 제거 </summary>
 <div markdown="1">
 
-> 코드를 작성하며 Controller 단에서 유저의 권한정보 즉 Authentication 정보를 확인하는 로직이 중복되는 것을 발견했다.
+> 코드를 작성하며 Controller 단에서 유저의 권한정보 즉 Authentication 정보를 확인하는 로직이 중복되는 것을 발견했습니다.
 > 한번 인증을 하게되면 이후의 로직에서는 Authentication 정보를 확인할 필요가 없다고 생각이 되는데,
-> 이 부분은 한 번 더 찾아보고 Refactoring을 진행해야 할 것 같다.
+> 이 부분은 한 번 더 찾아보고 Refactoring을 진행해야 할 것 같습니다.
 
 </div>
 </details>
@@ -261,12 +263,12 @@ JPA의 사용을 위해서 기본생성자는 필요가 필요합니다.
 <summary> 5. TestCode 관련 </summary>
 <div markdown="1">
 
-> TDD 를 진행하면서 TDD가 개발시간은 많이 들지만,  
-> 전체적인 로직을 구상하고 코드를 작성하는데 엄청난 도움이 된다는 것을 이번 프로젝트를 통해서 느꼈다.  
+> 이번 프로젝트를 통해서 TDD 를 진행하면서 TDD가 개발시간은 많이 들지만,  
+> 전체적인 로직을 구상하고 코드를 작성하는데 엄청난 도움이 된다는 것을 이번 프로젝트를 통해서 느꼈습니다.  
 > 최근에 Unit Test에 대해 진행하면서 Test Code를 작성하는 방법론에 대해 많이 보게되었고  
-> 그 중 `BDD(Behavior Driven Development)` 와 `SDD (Specification Driven Development)` 에 대해 알게되었고,  
+> 그 중 `BDD(Behavior Driven Development)` 와 `SDD (Specification Driven Development)` 에 대해 알게되었습니다.  
 > `BDD`는 하나의 기능을 구현하기 위해 어떤 행동을 해야하는지에 대한 시나리오의 테스트 코드를 작성하는 것인데,  
-> `BDD` 로도 한 번 진행해보면 좋을 것 같다는 생각이 들었다.
+> `BDD` 로도 한 번 진행해보면 좋을 것 같다는 생각이 들었습니다.
 
 </div>
 </details>
