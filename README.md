@@ -4,70 +4,99 @@
 
 > 나만의 작고 소중한 🥹 SNS 만들기...
 
-- 회원가입 기능
-- 로그인 기능
-- 포스트 작성, 수정, 삭제, 페이징 기능
+### Tech Stack
+
+<div align="center">
+ <img src="https://img.shields.io/badge/openJDK-FF9E0F.svg?logo=CoffeeScript&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Spring_Boot-6DB33F.svg?logo=Spring-Boot&logoColor=white"/> <br>
+ <img src="https://img.shields.io/badge/Spring_Security-6DB33F.svg?logo=Spring-Security&logoColor=white"/> 
+ <img src="https://img.shields.io/badge/JSON_Web_Token-000000.svg?logo=Json-Web-Tokens&logoColor=white"/> <br>
+ <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> 
+ <img src="https://img.shields.io/badge/Redis-DC382D.svg?logo=Redis&logoColor=white"/> <br>
+ <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Raspberry_Pi-A22846.svg?logo=Raspberry-Pi&logoColor=white"/>
+ <img src="https://img.shields.io/badge/Amazon_EC2-FF9900.svg?logo=Amazon-EC2&logoColor=white"/>
+</div>
+
+### URLs
+
+- `Raspberry Home Server` (Arm64) : http://geun.me:9999/swagger-ui.html#/
+
+- `AWS Server` (Amd64) : http://ec2-15-164-170-144.ap-northeast-2.compute.amazonaws.com:9999/swagger-ui.html#/
+
+###  Functional Description
+
+- 회원가입, 로그인, 회원 권한 수정 기능
+- <s>Redis를 이용한 Token 관리 및 로그아웃 기능</s> (ing...)
+- 포스트 CRUD 기능 (D: SoftDelete)
+- 댓글 CRUD 기능 (D: SoftDelete)
+- 좋아요 기능
+- 마이피드 기능
+- 알람 기능
 - CI/CD PipeLine 구축으로 지속적인 통합과 지속적인 배포환경 구성
 - Swagger API 명세 기능
 
 
 ## Development environment
 
-<div align="center">
- <img src="https://img.shields.io/badge/SpringBoot-6DB33F.svg?logo=Spring-Boot&logoColor=white" />
- <img src="https://img.shields.io/badge/SpringSecurity-6DB33F.svg?logo=Spring-Security&logoColor=white" />
- <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/></a>
- <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/></a>
- <img src="https://img.shields.io/badge/AmazonEC2-FF9900.svg?logo=Amazon-EC2&logoColor=white" />
-</div>
-
-
 - JVM 11 ver
 - Spring Boot 2.7.5 ver
 - Spring boot JPA
 - MySQL
+- Redis
 - Spring Security
 - Swagger
+- JWT
 - GitLab
 - Docker
 
 ---
 
-## SERVER
+## Server
 
 > 다양한 배포 경험을 위해서 arm64/amd64 환경에서 동시에 배포되었습니다.
 
-- amd64 : AWS EC2 t3small
-- arm64 : RaspberryPi4B 
+- arm64 : RaspberryPi 4B
+- amd64 : AWS EC2 t3.small
+
+---
+
+## Archetecture
+
+![Geun-sns](https://user-images.githubusercontent.com/89567475/211610161-fdc47514-f8c8-4a38-bc55-0ffa9a73c616.png)
 
 ---
 
 ## ERD
 
-![ERD](https://user-images.githubusercontent.com/89567475/209869344-9e87058f-2d22-4c43-a5ba-e43a78d04aa2.png)
+![ERD](https://user-images.githubusercontent.com/89567475/211506328-f92534d6-c4ff-42a7-a12f-4a5017b23a0c.png)
 
 ---
 
 ## EndPoints
 
-- `Raspberry Server` (Arm64) : http://geun.me:9999/swagger-ui.html#/
+|           | REST |                 Route                 |        API         |
+|:---------:|:------------------:|:-------------------------------------:|:------------------:|
+|  `hello`  | GET |            `/api/v1/hello`            |   CI/CD TEST API   |
+|  `users`  | POST |         `/api/v1/users/join`          |        회원가입        |
+|  `users`  | POST |         `/api/v1/users/login`         |        로그인         |
+|  `users`  | POST |         `/api/v1/users/login`         |        로그인         |
+|  `users`  | POST |       /api/v1/users/{id}/roles        |   사용자권한변경(Admin)   |
+|  `users`  | POST |    /api/v1/users/{id}/roles/admins    | 사용자권한변경(SuperUser) |
+|  `posts`  | POST |            `/api/v1/posts`            |        글 작성        |
+|  `posts`  | PUT |         `/api/v1/posts/{id}`          |        글 수정        |
+|  `posts`  | DELETE |         `/api/v1/posts/{id}`          |        글 삭제        |
+|  `posts`  | GET |         `/api/v1/posts/{id}`          |      글 세부 조회       |
+|  `posts`  | GET |            `/api/v1/posts`            |      글 전체 조회       |
+| `comment` | POST |     `/api/v1/posts/{id}/comment`      |       댓글 작성        |
+| `comment` | PUT | `/api/v1/posts/{postid}/comment/{id}` |       댓글 수정        |
+| `comment` | DELETE | `/api/v1/posts/{postid}/comment/{id}` |       댓글 삭제        |
+| `comment` | GET |     `/api/v1/posts/{id}/comment`      |       댓글 조회        |
+|  `good`   | POST |      `/api/v1/posts/{id}/likes`       |      좋아요 / 취소      |
+|  `good`   | GET |      `/api/v1/posts/{id}/likes`       |       좋아요 조회       |
+| `myfeed`  | GET |          `/api/v1/posts/my`           |      마이피드 조회       |
+|  `alarm`  | GET |         /api/v1/users/alarms          |       알람 조회        |
 
-- `AWS Server` (Amd64) : http://ec2-15-164-170-144.ap-northeast-2.compute.amazonaws.com:9999/swagger-ui.html#/
-
-|  | REST | Route | API |
-|:-----:|:------------------:|:-----------------------------:|:-----------------------------:|
-| `hello` | GET | `/api/v1/hello` | CI/CD TEST API |
-| `users` | POST | `/api/v1/users/join` | 회원가입 |
-| `users` | POST | `/api/v1/users/login` | 로그인 |
-| `posts` | POST | `/api/v1/posts` | 포스팅 |
-| `posts` | PUT | `/api/v1/posts/{id}` | 글수정기능 |
-| `posts` | DELETE | `/api/v1/posts/{id}` | 글삭제기능 |
-| `posts` | GET | `/api/v1/posts/{id}` | 글조회기능 |
-| `posts` | GET | `/api/v1/posts` | 글전체조회 |
-| `comment` | POST | `/api/v1/posts/{id}/comment` | 댓글작성기능 |
-| `comment` | PUT | `/api/v1/posts/{postid}/comment/{id}` | 댓글수정기능 |
-| `comment` | DELETE | `/api/v1/posts/{postid}/comment/{id}` | 댓글삭제기능 |
-| `comment` | GET | `/api/v1/posts/{id}/comment` | 댓글조회기능 |
 
 ---
 
