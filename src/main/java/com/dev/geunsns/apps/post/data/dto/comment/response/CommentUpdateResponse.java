@@ -27,7 +27,7 @@ public class CommentUpdateResponse {
 
     public static CommentUpdateResponse toResponse(CommentDto commentDto) {
         return new CommentUpdateResponse(
-                commentDto.getCommentId(),
+                commentDto.getId(),
                 commentDto.getComment(),
                 commentDto.getUserName(),
                 commentDto.getPostId(),
